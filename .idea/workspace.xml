@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="fist">
-      <change beforePath="$PROJECT_DIR$/KLineForm/buy.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/buy.py" afterDir="false" />
-    </list>
+    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="first commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,43 +33,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor": "Run",
-    "Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor": "Run",
-    "Python 测试.pytest (StockDataManagerTest.py 内).executor": "Run",
-    "Python 测试.pytest (test_auto_create_table.py 内).executor": "Run",
-    "Python 测试.test_akshare.test_akshare_connection 的 pytest.executor": "Run",
-    "Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor": "Run",
-    "Python 测试.test_deduplication.test_deduplication 的 pytest.executor": "Run",
-    "Python 测试.test_local.test_local_functionality 的 pytest.executor": "Run",
-    "Python.StockDataManagerTest.executor": "Run",
-    "Python.clickhouse (1).executor": "Run",
-    "Python.clickhouse.executor": "Run",
-    "Python.data_loader.executor": "Run",
-    "Python.downloader.executor": "Debug",
-    "Python.strategy01.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.pytest (StockDataManagerTest.py 内).executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.pytest (test_auto_create_table.py 内).executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_akshare.test_akshare_connection 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_deduplication.test_deduplication 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_local.test_local_functionality 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.StockDataManagerTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.clickhouse (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.clickhouse.executor&quot;: &quot;Run&quot;,
+    &quot;Python.data_loader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.downloader.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.strategy01.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;database.data.extractors.current.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "clickhouse",
-      "mysql_aurora"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;clickhouse&quot;,
+      &quot;mysql_aurora&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy\strategy01" />
@@ -236,6 +234,7 @@
       <workItem from="1775446928291" duration="11951000" />
       <workItem from="1775460837794" duration="6584000" />
       <workItem from="1775468177143" duration="3052000" />
+      <workItem from="1775471501715" duration="491000" />
     </task>
     <task id="LOCAL-00001" summary="fist">
       <option name="closed" value="true" />
@@ -245,7 +244,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775471075916</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="first commit">
+      <option name="closed" value="true" />
+      <created>1775471985223</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1775471985223</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,7 +271,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fist" />
-    <option name="LAST_COMMIT_MESSAGE" value="fist" />
+    <MESSAGE value="first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
