@@ -1,0 +1,12 @@
+name: akStock_python12
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+    - clickhouse-connect
+    - pandas
+    - numpy
+    - sqlalchemy
+    - requests

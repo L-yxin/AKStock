@@ -1,0 +1,2 @@
+import talib
+talib.CDLKICKING()
