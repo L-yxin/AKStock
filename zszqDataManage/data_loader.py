@@ -1,17 +1,20 @@
-import concurrent
 import datetime
+import datetime
+import logging
 import os
 import re
-import zipfile
 import struct
+import time
+import zipfile
 
 import clickhouse_connect
 import pandas as pd
 import requests
+from setuptools.sandbox import save_path
+from tqdm import tqdm
 
 from zszqConfig import clickhouse
-import logging
-import time
+
 
 class ZSZQDataLoader:
     """
@@ -185,41 +188,105 @@ class ZSZQDataLoader:
             return pd.DataFrame()
 
     def downloadRawData(self):
-        with open("../data/dataUpdate.txt", "a+") as f:
+
+        # 工具函数：把 "500.26MB" 转成 字节数
+        def str_to_bytes(size_str):
+            size_str = size_str.strip().upper()
+            if "MB" in size_str:
+                num = float(re.sub(r'[^\d.]', '', size_str))
+                return int(num * 1024 * 1024)  # 转成字节
+            elif "GB" in size_str:
+                num = float(re.sub(r'[^\d.]', '', size_str))
+                return int(num * 1024 * 1024 * 1024)
+            else:
+                return 0
+
+        os.makedirs("../data", exist_ok=True)
+
+        with open("../data/dataUpdate.txt", "a+", encoding="utf-8") as f:
             f.seek(0)
             t = f.read()
-            if t!="":
-                oldTime = datetime.datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
-                print(oldTime.date())
-                if datetime.datetime.now().date()==oldTime.date():
-                    logging.warning("数据已经是最新的，无需更新")
-                    return
-            else:
-                f.seek(0)
-                f.truncate(0)
-                logging.info("开始下载数据")
 
-                res = {}
-                infoJSURL = 'https://data.tdx.com.cn/vipdoc/_hsjdayinfo.js?t='+str(time.time_ns()//1_000_000//1_000_0)+ '&_='+str(time.time_ns()//1_000_000)
-                infoJS = requests.get(infoJSURL).text
-                info = re.findall(r'".*"', infoJS)
-                if len(info)==2:
-                    info[0] = info[0][1:-1]
-                    info[1] = info[1][1:-1]
-                    f.write(info[1])
-                else:
-                    logging.error("获取数据失败")
-                    return
-                print(info)
-                res["size"]=info[0]
-                res["time"]=info[1]
+            # 判断今天是否已经更新过
+            if t.strip() != "":
+                try:
+                    oldTime = datetime.datetime.strptime(t.strip(), "%Y-%m-%d %H:%M:%S")
+                    if datetime.datetime.now().date() == oldTime.date():
+                        logging.warning("✅ 数据已经是最新的，无需更新")
+                        return
+                except:
+                    pass
+
+            # 开始更新逻辑
+            f.seek(0)
+            f.truncate(0)
+            logging.info("🚀 开始下载数据...")
+
+            # 获取信息接口
+            infoJSURL = (
+                    'https://data.tdx.com.cn/vipdoc/_hsjdayinfo.js?t='
+                    + str(time.time_ns() // 1_000_000 // 1000)
+                    + '&_=' + str(time.time_ns() // 1_000_000)
+            )
+
+            try:
+                infoJS = requests.get(infoJSURL, timeout=20).text
+            except Exception as e:
+                logging.error(f"❌ 获取信息失败：{e}")
+                return
+
+            info = re.findall(r'"[^"]+"', infoJS)
+            if len(info) != 2:
+                logging.error("❌ 获取数据失败，格式不正确")
+                return
+
+            size_str = info[0].strip('"')
+            update_time = info[1].strip('"')
+            res = {"size": size_str, "time": update_time}
+
+            # 如果时间相同，不需要更新
+            if res["time"].strip() == t.strip():
+                logging.warning("✅ 数据已是最新，无需更新")
+                return
+
+            # ==========================
+            # 🔥 下载 + 正确进度条
+            # ==========================
+            zipUrl = "https://data.tdx.com.cn/vipdoc/hsjday.zip"
+            save_path = "../data/hsjday.zip"
+            total_size = str_to_bytes(res["size"])
+
+            logging.info(f"📦 准备下载：{res['size']}")
+            response = requests.get(zipUrl, stream=True, timeout=600)
+
+            progress_bar = tqdm(
+                total=total_size,
+                unit='B',
+                unit_scale=True,
+                unit_divisor=1024,
+                desc='⏬ 下载 hsjday.zip'
+            )
+
+            with open(save_path, "wb") as f1:
+                for chunk in response.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
+                        f1.write(chunk)
+                        progress_bar.update(len(chunk))
+
+            progress_bar.close()
+            logging.info("✅ 数据下载完成！")
+
+            # 记录更新时间
+            f.seek(0)
+            f.truncate(0)
+            f.write(res["time"])
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     loader = ZSZQDataLoader()
-    # loader.load_data_from_zip(r"D:\Users\lyx\Desktop\hsjday.zip", '2026-01-04', '2026-04-08')
+    loader.load_data_from_zip("../data/hsjday.zip", (datetime.datetime.now()-datetime.timedelta(days=30)).strftime('%Y-%m-%d'), datetime.datetime.now().strftime('%Y-%m-%d'))
     # 查询示例
     # df = loader.select('sh000001', '1d', '', '2026-04-04', '2026-04-04')
     # print(df)
-    loader.downloadRawData()
+    # loader.downloadRawData()
