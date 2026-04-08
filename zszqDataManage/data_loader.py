@@ -186,7 +186,7 @@ class ZSZQDataLoader:
 
 if __name__ == "__main__":
     loader = ZSZQDataLoader()
-    # loader.load_data_from_zip(r"D:\Users\lyx\Desktop\hsjday.zip")
+    loader.load_data_from_zip(r"D:\Users\lyx\Desktop\hsjday.zip", '2026-01-04', '2026-04-08')
     # 查询示例
-    df = loader.select('sh000001', '1d', '', '2022-09-01', '2025-10-31')
-    print(df)
+    # df = loader.select('sh000001', '1d', '', '2026-04-04', '2026-04-04')
+    # print(df)
