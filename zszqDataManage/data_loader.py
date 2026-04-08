@@ -7,10 +7,11 @@ import struct
 
 import clickhouse_connect
 import pandas as pd
+import requests
 
 from zszqConfig import clickhouse
 import logging
-
+import time
 
 class ZSZQDataLoader:
     """
@@ -183,10 +184,42 @@ class ZSZQDataLoader:
             logging.error(f"查询数据失败: {e}")
             return pd.DataFrame()
 
+    def downloadRawData(self):
+        with open("../data/dataUpdate.txt", "a+") as f:
+            f.seek(0)
+            t = f.read()
+            if t!="":
+                oldTime = datetime.datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
+                print(oldTime.date())
+                if datetime.datetime.now().date()==oldTime.date():
+                    logging.warning("数据已经是最新的，无需更新")
+                    return
+            else:
+                f.seek(0)
+                f.truncate(0)
+                logging.info("开始下载数据")
+
+                res = {}
+                infoJSURL = 'https://data.tdx.com.cn/vipdoc/_hsjdayinfo.js?t='+str(time.time_ns()//1_000_000//1_000_0)+ '&_='+str(time.time_ns()//1_000_000)
+                infoJS = requests.get(infoJSURL).text
+                info = re.findall(r'".*"', infoJS)
+                if len(info)==2:
+                    info[0] = info[0][1:-1]
+                    info[1] = info[1][1:-1]
+                    f.write(info[1])
+                else:
+                    logging.error("获取数据失败")
+                    return
+                print(info)
+                res["size"]=info[0]
+                res["time"]=info[1]
+
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     loader = ZSZQDataLoader()
-    loader.load_data_from_zip(r"D:\Users\lyx\Desktop\hsjday.zip", '2026-01-04', '2026-04-08')
+    # loader.load_data_from_zip(r"D:\Users\lyx\Desktop\hsjday.zip", '2026-01-04', '2026-04-08')
     # 查询示例
     # df = loader.select('sh000001', '1d', '', '2026-04-04', '2026-04-04')
     # print(df)
+    loader.downloadRawData()

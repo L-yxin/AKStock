@@ -4,3 +4,7 @@ matplotlib~=3.10.8
 seaborn~=0.13.2
 clickhouse-connect~=0.10.0
 akshare~=1.18.22
+mootdx~=0.11.7
+fastapi~=0.128.0
+typing~=3.7.4.3
+requests~=2.32.5
