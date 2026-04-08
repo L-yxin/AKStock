@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="first commit">
-      <change afterPath="$PROJECT_DIR$/webapi/main.py" afterDir="false" />
+    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="add fastApi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/zszqDataManage/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/zszqDataManage/data_loader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,18 +27,18 @@
     <branch-grouping />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {}
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="de55640c-e1da-40e9-8d70-b47e9eeae548" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/L-yxin/AKStock.git",
-    "accountId": "de55640c-e1da-40e9-8d70-b47e9eeae548"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/L-yxin/AKStock.git&quot;,
+    &quot;accountId&quot;: &quot;de55640c-e1da-40e9-8d70-b47e9eeae548&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -50,44 +50,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor": "Run",
-    "Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor": "Run",
-    "Python 测试.pytest (StockDataManagerTest.py 内).executor": "Run",
-    "Python 测试.pytest (test_auto_create_table.py 内).executor": "Run",
-    "Python 测试.test_akshare.test_akshare_connection 的 pytest.executor": "Run",
-    "Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor": "Run",
-    "Python 测试.test_deduplication.test_deduplication 的 pytest.executor": "Run",
-    "Python 测试.test_local.test_local_functionality 的 pytest.executor": "Run",
-    "Python.StockDataManagerTest.executor": "Run",
-    "Python.clickhouse (1).executor": "Run",
-    "Python.clickhouse.executor": "Run",
-    "Python.data_loader.executor": "Run",
-    "Python.downloader.executor": "Debug",
-    "Python.strategy01.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.pytest (StockDataManagerTest.py 内).executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.pytest (test_auto_create_table.py 内).executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_akshare.test_akshare_connection 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_deduplication.test_deduplication 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_local.test_local_functionality 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.StockDataManagerTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.clickhouse (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.clickhouse.executor&quot;: &quot;Run&quot;,
+    &quot;Python.data_loader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.downloader.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.strategy01.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;database.data.extractors.current.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "clickhouse",
-      "mysql_aurora"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;clickhouse&quot;,
+      &quot;mysql_aurora&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy\strategy01" />
@@ -359,6 +359,7 @@
       <workItem from="1775468177143" duration="3052000" />
       <workItem from="1775471501715" duration="2587000" />
       <workItem from="1775551093072" duration="7364000" />
+      <workItem from="1775637907807" duration="3378000" />
     </task>
     <task id="LOCAL-00001" summary="fist">
       <option name="closed" value="true" />
@@ -400,7 +401,23 @@
       <option name="project" value="LOCAL" />
       <updated>1775551242704</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="2st">
+      <option name="closed" value="true" />
+      <created>1775638031685</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1775638031685</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add fastApi">
+      <option name="closed" value="true" />
+      <created>1775638044654</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1775638044655</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,7 +463,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fist" />
     <MESSAGE value="first commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+    <MESSAGE value="2st" />
+    <MESSAGE value="add fastApi" />
+    <option name="LAST_COMMIT_MESSAGE" value="add fastApi" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -473,7 +492,7 @@
     <SUITE FILE_PATH="coverage/AKStock$clickhouse.coverage" NAME="clickhouse 覆盖结果" MODIFIED="1770545987991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/config" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest_test_stock_data_manager__pytest.coverage" NAME="StockDataManagerTest.test_stock_data_manager 的 pytest 覆盖结果" MODIFIED="1772337795507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$test_local_test_local_functionality__pytest.coverage" NAME="test_local.test_local_functionality 的 pytest 覆盖结果" MODIFIED="1772337693268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AKStock$data_loader.coverage" NAME="data_loader 覆盖结果" MODIFIED="1775564164610" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zszqDataManage" />
+    <SUITE FILE_PATH="coverage/AKStock$data_loader.coverage" NAME="data_loader 覆盖结果" MODIFIED="1775641473671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zszqDataManage" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest_MyTestCase__pytest.coverage" NAME="StockDataManagerTest.MyTestCase 的 pytest 覆盖结果" MODIFIED="1772336451171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest.coverage" NAME="StockDataManagerTest 覆盖结果" MODIFIED="1772341122955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$strategy01.coverage" NAME="strategy01 覆盖结果" MODIFIED="1775470218374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy01" />
