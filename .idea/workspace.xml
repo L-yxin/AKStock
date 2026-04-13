@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="T">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapi/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/webapi/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/zszqDataManage/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/zszqDataManage/data_loader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,50 +51,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor&quot;: &quot;Run&quot;,
-    &quot;Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor&quot;: &quot;Run&quot;,
-    &quot;Python 测试.pytest (StockDataManagerTest.py 内).executor&quot;: &quot;Run&quot;,
-    &quot;Python 测试.pytest (test_auto_create_table.py 内).executor&quot;: &quot;Run&quot;,
-    &quot;Python 测试.test_akshare.test_akshare_connection 的 pytest.executor&quot;: &quot;Run&quot;,
-    &quot;Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor&quot;: &quot;Run&quot;,
-    &quot;Python 测试.test_deduplication.test_deduplication 的 pytest.executor&quot;: &quot;Run&quot;,
-    &quot;Python 测试.test_local.test_local_functionality 的 pytest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.StockDataManagerTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.clickhouse (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.clickhouse.executor&quot;: &quot;Run&quot;,
-    &quot;Python.data_loader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.downloader.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.strategy01.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
-    &quot;database.data.extractors.current.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "FastAPI.main.py.executor": "Debug",
+    "FastAPI.未命名.executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor": "Run",
+    "Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor": "Run",
+    "Python 测试.pytest (StockDataManagerTest.py 内).executor": "Run",
+    "Python 测试.pytest (test_auto_create_table.py 内).executor": "Run",
+    "Python 测试.test_akshare.test_akshare_connection 的 pytest.executor": "Run",
+    "Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor": "Run",
+    "Python 测试.test_deduplication.test_deduplication 的 pytest.executor": "Run",
+    "Python 测试.test_local.test_local_functionality 的 pytest.executor": "Run",
+    "Python.StockDataManagerTest.executor": "Run",
+    "Python.clickhouse (1).executor": "Run",
+    "Python.clickhouse.executor": "Run",
+    "Python.data_loader.executor": "Run",
+    "Python.downloader.executor": "Debug",
+    "Python.main.executor": "Debug",
+    "Python.strategy01.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;clickhouse&quot;,
-      &quot;mysql_aurora&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "clickhouse",
+      "mysql_aurora"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy\strategy01" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.data_loader">
+  <component name="RunManager" selected="FastAPI.main.py">
     <configuration name="StockDataManagerTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
@@ -185,6 +190,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AKStock" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/webapi" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/webapi/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="strategy01" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
@@ -229,6 +257,37 @@
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.py" type="Python.FastAPI">
+      <option name="file" value="D:\Users\lyx\Desktop\量化\AKStock\webapi\main.py" />
+      <module name="AKStock" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$USER_HOME$/.conda/envs/akStock_python12/python.exe" />
+      <option name="SDK_NAME" value="akStock_python12" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Flask" type="Python.FlaskServer" nameIsGenerated="true">
+      <module name="AKStock" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="akStock_python12" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="pytest (D:/Users/lyx/Desktop/量化/AKStock/tests/StockDataManagerTest.py 内)" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
@@ -285,31 +344,23 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="test_akshare.test_akshare_connection 的 pytest" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="AKStock" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_akshare.test_akshare_connection&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
+    <list>
+      <item itemvalue="FastAPI.main.py" />
+      <item itemvalue="Flask 服务器.Flask" />
+      <item itemvalue="Python.data_loader" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.StockDataManagerTest" />
+      <item itemvalue="Python.strategy01" />
+      <item itemvalue="Python 测试.pytest (D:/Users/lyx/Desktop/量化/AKStock/tests/StockDataManagerTest.py 内)" />
+      <item itemvalue="Python 测试.test_akshare.test_akshare_connection 的 pytest" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.data_loader" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.strategy01" />
         <item itemvalue="Python 测试.pytest (D:/Users/lyx/Desktop/量化/AKStock/tests/StockDataManagerTest.py 内)" />
         <item itemvalue="Python.StockDataManagerTest" />
-        <item itemvalue="Python 测试.test_akshare.test_akshare_connection 的 pytest" />
       </list>
     </recent_temporary>
   </component>
@@ -358,7 +409,13 @@
       <workItem from="1775468177143" duration="3052000" />
       <workItem from="1775471501715" duration="2587000" />
       <workItem from="1775551093072" duration="7364000" />
-      <workItem from="1775637907807" duration="4827000" />
+      <workItem from="1775637907807" duration="9784000" />
+      <workItem from="1775730574826" duration="3399000" />
+      <workItem from="1775813836924" duration="1219000" />
+      <workItem from="1775897621579" duration="5016000" />
+      <workItem from="1775909623301" duration="33000" />
+      <workItem from="1775909797775" duration="1123000" />
+      <workItem from="1776069254000" duration="7832000" />
     </task>
     <task id="LOCAL-00001" summary="fist">
       <option name="closed" value="true" />
@@ -432,7 +489,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775641827856</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="T">
+      <option name="closed" value="true" />
+      <created>1775643249796</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1775643249796</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -496,6 +561,11 @@
           <line>20</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/zszqDataManage/data_loader.py</url>
+          <line>350</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -504,11 +574,13 @@
     <SUITE FILE_PATH="coverage/AKStock$pytest__test_auto_create_table_py__.coverage" NAME="pytest (test_auto_create_table.py 内) 覆盖结果" MODIFIED="1770550739278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
     <SUITE FILE_PATH="coverage/AKStock$downloader.coverage" NAME="downloader 覆盖结果" MODIFIED="1772338227732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dataManage" />
     <SUITE FILE_PATH="coverage/AKStock$pytest__StockDataManagerTest_py__.coverage" NAME="pytest (StockDataManagerTest.py 内) 覆盖结果" MODIFIED="1774065142086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/AKStock$main.coverage" NAME="main 覆盖结果" MODIFIED="1775644922177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webapi" />
     <SUITE FILE_PATH="coverage/AKStock$test_akshare_test_akshare_connection__pytest.coverage" NAME="test_akshare.test_akshare_connection 的 pytest 覆盖结果" MODIFIED="1772339533128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AKStock$clickhouse.coverage" NAME="clickhouse 覆盖结果" MODIFIED="1770545987991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/config" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest_test_stock_data_manager__pytest.coverage" NAME="StockDataManagerTest.test_stock_data_manager 的 pytest 覆盖结果" MODIFIED="1772337795507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$test_local_test_local_functionality__pytest.coverage" NAME="test_local.test_local_functionality 的 pytest 覆盖结果" MODIFIED="1772337693268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AKStock$data_loader.coverage" NAME="data_loader 覆盖结果" MODIFIED="1775642879861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zszqDataManage" />
+    <SUITE FILE_PATH="coverage/AKStock$data_loader.coverage" NAME="data_loader 覆盖结果" MODIFIED="1776076586863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zszqDataManage" />
+    <SUITE FILE_PATH="coverage/AKStock$.coverage" NAME="main.py 覆盖结果" MODIFIED="1776077104730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest_MyTestCase__pytest.coverage" NAME="StockDataManagerTest.MyTestCase 的 pytest 覆盖结果" MODIFIED="1772336451171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest.coverage" NAME="StockDataManagerTest 覆盖结果" MODIFIED="1772341122955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$strategy01.coverage" NAME="strategy01 覆盖结果" MODIFIED="1775470218374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy01" />

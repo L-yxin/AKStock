@@ -7,6 +7,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
 from zszqDataManage.data_loader import ZSZQDataLoader
+import asyncio
 
 zszq = ZSZQDataLoader()
 app = FastAPI()
@@ -26,10 +27,10 @@ async def websocket_kline(websocket: WebSocket):
     try:
         data = await websocket.receive_text()
         params = json.loads(data)
-
+        print(params)
         action = params.get("action", "history")
-        code = params.get("code", "sh000001")
-        period = params.get("period", "1d")
+        code = params.get("code", "")
+        period = params.get("period", "")
         adjust_type = params.get("adjust_type", "")
         start_date = params.get("start_date", "2022-01-01")
         end_date = params.get("end_date", "2026-03-20")
@@ -37,8 +38,8 @@ async def websocket_kline(websocket: WebSocket):
         if action == "history":
             # 自动加 8 小时（将日期字符串转为 datetime 并加上 8 小时）
             # 注意：如果数据库字段是 datetime 类型，需要传递完整的日期时间字符串
-            start_dt = datetime.strptime(start_date, "%Y-%m-%d") + timedelta(hours=8)
-            end_dt = datetime.strptime(end_date, "%Y-%m-%d") + timedelta(hours=8)
+            start_dt = datetime.strptime(start_date, "%Y-%m-%d")
+            end_dt = datetime.strptime(end_date, "%Y-%m-%d")
 
             # 格式化回字符串，可根据 select 方法的实际要求调整格式
             # 如果 select 只接受 "YYYY-MM-DD"，则只需提取日期部分；如果接受日期时间，则保留完整
@@ -77,4 +78,28 @@ async def websocket_kline(websocket: WebSocket):
         logging.info("客户端断开连接")
     except Exception as e:
         logging.error(f"WebSocket 异常: {e}")
+        await websocket.close()
+
+
+
+@app.websocket("/ws/allSymbols")
+async def websocket_allSymbols(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        all_symbols = zszq.getAllSymbols()
+        await websocket.send_json(all_symbols["code"].tolist())
+    except WebSocketDisconnect:
+        logging.info("客户端断开连接")
+    finally:
+        await websocket.close()
+
+@app.websocket("/ws/syncData")
+async def websocket_syncData(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        data = await asyncio.to_thread(zszq.syncData)
+        await websocket.send_json(data)
+    except WebSocketDisconnect:
+        logging.info("客户端断开连接")
+    finally:
         await websocket.close()

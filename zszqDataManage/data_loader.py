@@ -1,20 +1,50 @@
 import datetime
-import datetime
 import logging
 import os
 import re
 import struct
+import threading
 import time
 import zipfile
+from functools import wraps
 
 import clickhouse_connect
 import pandas as pd
 import requests
-from setuptools.sandbox import save_path
 from tqdm import tqdm
 
 from zszqConfig import clickhouse
 
+def sync_once(func):
+    """
+    线程安全装饰器：
+    1. 函数执行中被重复调用 → 直接返回 "处理中"
+    2. 执行完毕后恢复状态
+    3. 适配类实例方法
+    """
+    # 线程锁，保证多线程安全
+    lock = threading.Lock()
+    is_running = False
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        nonlocal is_running
+        with lock:
+            # 正在执行，直接返回
+            if is_running:
+                return "处理中"
+            # 标记为执行中
+            is_running = True
+
+        try:
+            # 执行原业务逻辑
+            return func(*args, **kwargs)
+        finally:
+            # 无论成功/异常，重置状态
+            with lock:
+                is_running = False
+
+    return wrapper
 
 class ZSZQDataLoader:
     """
@@ -67,7 +97,11 @@ class ZSZQDataLoader:
                     for i in range(num_bars):
                         bar = buffer[i*32 : (i+1)*32]
                         date, open_, high, low, close, amount, vol, _ = struct.unpack("IIIIIfII", bar)
-                        dt = datetime.datetime(date // 10000, (date % 10000) // 100, date % 100)
+                        dt = datetime.datetime(
+                            date // 10000,
+                            (date % 10000) // 100,
+                            date % 100 # 加东八区
+                        )
                         rows.append({
                             'code': code,
                             'period': '1d',
@@ -103,9 +137,20 @@ class ZSZQDataLoader:
         :param end_date: 结束日期，格式 'YYYY-MM-DD' 或 datetime 对象
         """
         if not os.path.isfile(zip_path) or not zip_path.lower().endswith('.zip'):
-            print(f"无效的ZIP文件路径: {zip_path}")
+            logging.error(f"无效的ZIP文件路径: {zip_path}")
             return
-
+        COLUMN_TYPES = [
+            "String",  # code
+            "String",  # period
+            "String",  # adjust_type
+            "DateTime('Asia/Shanghai')",  # datetime 强制东八区
+            "Float32",  # open
+            "Float32",  # high
+            "Float32",  # low
+            "Float32",  # close
+            "Int64",  # volume
+            "Float32"  # amount
+        ]
         # 日期范围预处理
         if start_date is not None:
             start_date = pd.Timestamp(start_date) if isinstance(start_date, str) else pd.Timestamp(start_date)
@@ -113,14 +158,14 @@ class ZSZQDataLoader:
             end_date = (pd.Timestamp(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
                         if isinstance(end_date, str) else pd.Timestamp(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1))
 
-        batch_size = 100000
+        batch_size = 50000
         buffer = []  # 存储待插入的DataFrame（每个元素是一个股票的DataFrame）
         total_rows = 0
 
         for stock_df in self.parse_file_to_df(zip_path):
             if stock_df.empty:
                 continue
-
+            stock_df["datetime"] = pd.to_datetime(stock_df["datetime"]) - pd.Timedelta(hours=8)
             # 日期过滤
             if start_date is not None:
                 stock_df = stock_df[stock_df['datetime'] >= start_date]
@@ -137,9 +182,9 @@ class ZSZQDataLoader:
                 combined = pd.concat(buffer, ignore_index=True)
                 try:
                     self.client.insert_df('KLineData', combined)
-                    print(f"成功插入 {len(combined)} 条记录")
+                    logging.info(f"成功插入 {len(combined)} 条记录")
                 except Exception as e:
-                    print(f"批量插入失败: {e}")
+                    logging.error(f"批量插入失败({total_rows}条): {e}")
                 buffer.clear()
                 total_rows = 0
 
@@ -148,11 +193,11 @@ class ZSZQDataLoader:
             combined = pd.concat(buffer, ignore_index=True)
             try:
                 self.client.insert_df('KLineData', combined)
-                print(f"成功插入 {len(combined)} 条记录")
+                logging.info(f"成功插入 {len(combined)} 条记录")
             except Exception as e:
-                print(f"批量插入失败: {e}")
+                logging.error(f"批量插入失败({total_rows}条): {e}")
 
-        print("ZIP文件处理完成")
+        logging.info("ZIP文件处理完成")
 
     def select(self, code: str, period: str, adjust_type: str, start_date, end_date):
         """查询时需传入带前缀的code，例如 'sh600000'"""
@@ -187,8 +232,7 @@ class ZSZQDataLoader:
             logging.error(f"查询数据失败: {e}")
             return pd.DataFrame()
 
-    def downloadRawData(self):
-
+    def downloadRawData(self)->(bool,str):
         # 工具函数：把 "500.26MB" 转成 字节数
         def str_to_bytes(size_str):
             size_str = size_str.strip().upper()
@@ -199,11 +243,11 @@ class ZSZQDataLoader:
                 num = float(re.sub(r'[^\d.]', '', size_str))
                 return int(num * 1024 * 1024 * 1024)
             else:
-                return 0
+                return False, "无效的格式"
 
         os.makedirs("../data", exist_ok=True)
 
-        with open("../data/dataUpdate.txt", "a+", encoding="utf-8") as f:
+        with open(os.path.abspath(f"{__file__}\\..\\..\\data\\dataUpdate.txt"), "a+", encoding="utf-8") as f:
             f.seek(0)
             t = f.read()
 
@@ -213,13 +257,12 @@ class ZSZQDataLoader:
                     oldTime = datetime.datetime.strptime(t.strip(), "%Y-%m-%d %H:%M:%S")
                     if datetime.datetime.now().date() == oldTime.date():
                         logging.warning("✅ 数据已经是最新的，无需更新")
-                        return
+                        return False, "数据已经是最新的，无需更新"
                 except:
                     pass
 
             # 开始更新逻辑
-            f.seek(0)
-            f.truncate(0)
+
             logging.info("🚀 开始下载数据...")
 
             # 获取信息接口
@@ -233,12 +276,12 @@ class ZSZQDataLoader:
                 infoJS = requests.get(infoJSURL, timeout=20).text
             except Exception as e:
                 logging.error(f"❌ 获取信息失败：{e}")
-                return
+                return False, "获取数据失败"
 
             info = re.findall(r'"[^"]+"', infoJS)
             if len(info) != 2:
                 logging.error("❌ 获取数据失败，格式不正确")
-                return
+                return False, "获取数据失败"
 
             size_str = info[0].strip('"')
             update_time = info[1].strip('"')
@@ -247,13 +290,13 @@ class ZSZQDataLoader:
             # 如果时间相同，不需要更新
             if res["time"].strip() == t.strip():
                 logging.warning("✅ 数据已是最新，无需更新")
-                return
+                return False, "数据已是最新，无需更新"
 
             # ==========================
             # 🔥 下载 + 正确进度条
             # ==========================
             zipUrl = "https://data.tdx.com.cn/vipdoc/hsjday.zip"
-            save_path = "../data/hsjday.zip"
+            save_path = os.path.abspath(f"{__file__}\\..\\..\\data\\hsjday.zip")
             total_size = str_to_bytes(res["size"])
 
             logging.info(f"📦 准备下载：{res['size']}")
@@ -275,18 +318,37 @@ class ZSZQDataLoader:
 
             progress_bar.close()
             logging.info("✅ 数据下载完成！")
-
+            f.seek(0)
+            f.truncate(0)
             # 记录更新时间
             f.seek(0)
             f.truncate(0)
             f.write(res["time"])
+            return True, "数据更新成功"
 
+    def getAllSymbols(self)-> pd.DataFrame:
+        """获取所有股票代码"""
+        return self.client.query_df("SELECT DISTINCT code FROM KLineData")
+    @sync_once
+    def syncData(self):
+        t, mes =self.downloadRawData()
+        print(t,mes)
+        if t:
+            newDate = self.client.query_df("SELECT datetime  FROM KLineData order by datetime DESC LIMIT 1")
+            newDate = newDate["datetime"][0].to_pydatetime()
+            self.load_data_from_zip(os.path.abspath(f"{__file__}\\..\\..\\data\\hsjday.zip"), (newDate-datetime.timedelta(days=30)).strftime('%Y-%m-%d'), datetime.datetime.now().strftime('%Y-%m-%d'))
+            return "更新完毕"
+        return mes
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     loader = ZSZQDataLoader()
-    loader.load_data_from_zip("../data/hsjday.zip", (datetime.datetime.now()-datetime.timedelta(days=30)).strftime('%Y-%m-%d'), datetime.datetime.now().strftime('%Y-%m-%d'))
-    # 查询示例
-    # df = loader.select('sh000001', '1d', '', '2026-04-04', '2026-04-04')
-    # print(df)
     # loader.downloadRawData()
+    loader.load_data_from_zip("../data/hsjday.zip", (datetime.datetime.now()-datetime.timedelta(days=10)).strftime('%Y-%m-%d'), datetime.datetime.now().strftime('%Y-%m-%d'))
+    # loader.load_data_from_zip("../data/hsjday.zip")
+    # 查询示例
+    # df = loader.select('sh000001', '1d', '', '2026-04-12', '2026-04-14')
+    # print(df["datetime"])
+
+    # symbols = loader.syncData()
+    # print(symbols["code"].tolist())
