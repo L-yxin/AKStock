@@ -11,5 +11,6 @@ def manager_boolean(value:str):
         def __waper(*args, **kwargs):
             res =  func(*args, **kwargs)
             return ManagerBoolean(value, bool(res))
+        __waper.__message__ = value
         return __waper
     return waper

@@ -9,6 +9,7 @@ import zipfile
 from functools import wraps
 
 import clickhouse_connect
+# import modin.pandas as pd
 import pandas as pd
 import requests
 from tqdm import tqdm
