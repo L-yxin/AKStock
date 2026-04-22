@@ -4,32 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="调整了买卖附加功能">
-      <change afterPath="$PROJECT_DIR$/signalTestFrame/Signaltest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/signalTestFrame/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/dataTransfer/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/t1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/t5.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/t6.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/t7.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tool/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tool/inspectFuncArgsAndInfo.py" afterDir="false" />
+    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="强制参数检查">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KLineForm/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KLineForm/buy.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/buy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KLineForm/managerTool.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/managerTool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KLineForm/sell.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/sell.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/DataTransfer.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/dataTransfer/DataTransfer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/orders_log.csv" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy01/orders_log.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/portfolio_nav.csv" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy01/portfolio_nav.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/strategy01.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy01/strategy01.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/trades_log.csv" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy01/trades_log.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/1.sql" beforeDir="false" afterPath="$PROJECT_DIR$/temp/1.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/t4.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/test/t4.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signalTestFrame/Signaltest.py" beforeDir="false" afterPath="$PROJECT_DIR$/signalTestFrame/Signaltest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webapi/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/webapi/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zszqConfig/clickhouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/zszqConfig/clickhouse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zszqDataManage/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/zszqDataManage/data_loader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +110,7 @@
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy\strategy01" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Signaltest">
+  <component name="RunManager" selected="FastAPI.main.py">
     <configuration name="Signaltest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
@@ -379,7 +359,7 @@
       <workItem from="1776507211407" duration="7047000" />
       <workItem from="1776677113759" duration="8991000" />
       <workItem from="1776766958932" duration="18311000" />
-      <workItem from="1776820725674" duration="455000" />
+      <workItem from="1776820725674" duration="8417000" />
     </task>
     <task id="LOCAL-00001" summary="fist">
       <option name="closed" value="true" />
@@ -477,7 +457,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776236841550</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="强制参数检查">
+      <option name="closed" value="true" />
+      <created>1776821323856</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1776821323856</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -528,18 +516,8 @@
     <MESSAGE value="T" />
     <MESSAGE value="调整了数据库" />
     <MESSAGE value="调整了买卖附加功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="调整了买卖附加功能" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/signalTestFrame/Signaltest.py</url>
-          <line>186</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="强制参数检查" />
+    <option name="LAST_COMMIT_MESSAGE" value="强制参数检查" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AKStock$buy.coverage" NAME="buy 覆盖结果" MODIFIED="1776781031352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/KLineForm" />
@@ -556,7 +534,7 @@
     <SUITE FILE_PATH="coverage/AKStock$pytest__StockDataManagerTest_py__.coverage" NAME="pytest (StockDataManagerTest.py 内) 覆盖结果" MODIFIED="1774065142086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$signalTest.coverage" NAME="signalTest 覆盖结果" MODIFIED="1776339221489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/signalTestFrame" />
     <SUITE FILE_PATH="coverage/AKStock$main.coverage" NAME="main 覆盖结果" MODIFIED="1775644922177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webapi" />
-    <SUITE FILE_PATH="coverage/AKStock$main_py.coverage" NAME="main.py 覆盖结果" MODIFIED="1776767702141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/AKStock$main_py.coverage" NAME="main.py 覆盖结果" MODIFIED="1776830481316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/AKStock$clickhouse.coverage" NAME="clickhouse 覆盖结果" MODIFIED="1770545987991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/config" />
     <SUITE FILE_PATH="coverage/AKStock$test_local_test_local_functionality__pytest.coverage" NAME="test_local.test_local_functionality 的 pytest 覆盖结果" MODIFIED="1772337693268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AKStock$data_loader.coverage" NAME="data_loader 覆盖结果" MODIFIED="1776512965977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zszqDataManage" />

@@ -205,6 +205,56 @@ class MaPairsConfig(BaseModel):
             ensure_pairs,
             inner_schema,
         )
+
+
+
+
+class RsiConfig(BaseModel):
+    value: List[int] = Field(default=[6, 12, 24], description="RSI 周期列表，必须为正整数")
+
+    @field_validator('value', mode='before')
+    @classmethod
+    def parse_and_validate(cls, v: Any) -> List[int]:
+        if v is None:
+            return [6, 12, 24]
+        # 处理字符串 "6,12,24"
+        if isinstance(v, str):
+            parts = v.split(',')
+            if not parts:
+                raise ValueError("Empty string, expected comma-separated integers")
+            try:
+                periods = [int(p.strip()) for p in parts]
+            except ValueError:
+                raise ValueError(f"All parts must be integers, got '{v}'")
+            v = periods
+
+        # 校验列表
+        if not isinstance(v, list):
+            raise ValueError(f"value must be list of ints or comma-separated string, got {type(v)}")
+        if not v:
+            raise ValueError("List cannot be empty")
+        for idx, p in enumerate(v):
+            if not isinstance(p, int):
+                raise ValueError(f"Element {idx} must be int, got {type(p)}")
+            if p <= 0:
+                raise ValueError(f"Element {idx} ({p}) must be > 0")
+        return v
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> CoreSchema:
+        inner_schema = handler(cls)
+        def ensure_list(v: Any) -> Any:
+            if isinstance(v, str) or isinstance(v, list):
+                return cls(value=v)
+            return v
+        return core_schema.no_info_before_validator_function(
+            ensure_list,
+            inner_schema,
+        )
+
+
 # 测试
 @validate_call
 def func(a: MaPairsConfig=None):

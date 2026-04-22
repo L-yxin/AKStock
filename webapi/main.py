@@ -134,6 +134,8 @@ async def websocket_getLongShortSignal(websocket: WebSocket):
         endTime = params.get("endTime", "")
         indicators = params.get("indicators", [])
         signal = Signaltest(code, period, adjust_type, startTime, endTime, indicators, modelType)
+        res = await asyncio.to_thread(signal.start)
+        await websocket.send_json(res)
 
     except WebSocketDisconnect:
         logging.info("客户端断开连接")

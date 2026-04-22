@@ -1,7 +1,7 @@
 from typing import Optional, List, Dict, Tuple
 import numpy as np
 import talib
-from KLineForm.managerTool import manager_boolean, MacdConfig, MaPeriodsConfig,MaPairsConfig
+from KLineForm.managerTool import manager_boolean, MacdConfig, MaPeriodsConfig,MaPairsConfig,RsiConfig
 
 
 @manager_boolean("看涨吞没")
@@ -475,6 +475,38 @@ def is_small_bullish_steps(
         return False
     return True
 
+
+@manager_boolean("RSI超卖")
+def is_rsi_oversold(
+    close: np.ndarray,
+    rsi_periods: Optional[RsiConfig] = None,
+    threshold: float = 30.0
+) -> bool:
+    """
+    判断 RSI 是否处于超卖状态（低于阈值）
+
+    参数:
+        close: 收盘价序列
+        rsi_periods: RSI 周期配置，支持列表或字符串 "6,12,24"
+        threshold: 超卖阈值，默认 30
+
+    返回:
+        bool: 如果任一周期 RSI 低于阈值，返回 True
+    """
+    if rsi_periods is None:
+        rsi_periods = RsiConfig()
+    periods = rsi_periods.value
+
+    if len(close) < max(periods) + 1:
+        return False
+
+    for period in periods:
+        rsi = talib.RSI(close, timeperiod=period)
+        if np.isnan(rsi[-1]):
+            continue
+        if rsi[-1] < threshold:
+            return True
+    return False
 if __name__ == '__main__':
 
     print(is_moving_average_up.__oldFunc__.__doc__)

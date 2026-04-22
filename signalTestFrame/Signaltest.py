@@ -147,7 +147,12 @@ class Signaltest:
                         "method": ind["method"],
                         "type": ind["type"],
                         "info": ind["info"],
-                        "message":ind["message"]
+                        "message":ind["message"],
+                        "open":float(base_data["open_"][-1]),
+                        "high":float(base_data["high"][-1]),
+                        "low":float(base_data["low"][-1]),
+                        "close":float(base_data["close"][-1]),
+                        "volume":int(base_data["volume"][-1])
                     })
             except Exception as e:
                 logging.warning(f"指标 {ind['method']} 计算失败 at {current_time}: {e}")
