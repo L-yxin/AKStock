@@ -1,8 +1,10 @@
-SELECT datetime  FROM KLineData order by datetime DESC LIMIT 1;
-ALTER TABLE KLineData
-MODIFY COLUMN datetime DateTime('Asia/Shanghai');
-
-
+--default下完成
+CREATE USER zszq IDENTIFIED WITH sha256_password BY 'zszq';
+GRANT SELECT ON system.* TO zszq;
+CREATE DATABASE IF NOT EXISTS zszq;
+GRANT ALL ON zszq.* TO zszq;
+-- zszq下完成
+use zszq;
 create table KLineData
 (
     code        String comment '股票代码（如600000.SH、000001.SZ）',
@@ -21,6 +23,11 @@ create table KLineData
         PARTITION BY toYYYYMM(datetime)
         ORDER BY (code, period, adjust_type, datetime)
         SETTINGS index_granularity = 8192, merge_with_ttl_timeout = 3600, storage_policy = 'default';
+
+
+SELECT datetime  FROM KLineData order by datetime DESC LIMIT 1;
+ALTER TABLE KLineData
+MODIFY COLUMN datetime DateTime('Asia/Shanghai');
 
 delete
 from KLineData

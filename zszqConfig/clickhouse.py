@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 class clickhouseConfig(Enum):
     """ClickHouse数据库配置枚举类"""
-    HOST = "localhost"
+    HOST = "192.168.100.128"
     PORT = 8123
     USER = "zszq"
     PASSWORD = "zszq"

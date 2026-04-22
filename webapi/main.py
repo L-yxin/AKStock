@@ -7,8 +7,9 @@ import pandas as pd
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
+from signalTestFrame.Signaltest import Signaltest
 from zszqDataManage.data_loader import ZSZQDataLoader
-
+import KLineForm as klf
 zszq = ZSZQDataLoader()
 app = FastAPI()
 
@@ -103,3 +104,41 @@ async def websocket_syncData(websocket: WebSocket):
         logging.info("客户端断开连接")
     finally:
         await websocket.close()
+
+@app.websocket("/ws/buyingAndSellingIndicator")
+async def websocket_buyingAndSellingIndicator(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        buyIndicator = klf.methodInfo.buy()
+        sellIndicator = klf.methodInfo.sell()
+        await websocket.send_json({
+            "buy": buyIndicator.to_json(),
+            "sell": sellIndicator.to_json()
+        })
+    except WebSocketDisconnect:
+        logging.info("客户端断开连接")
+    finally:
+        await websocket.close()
+
+
+@app.websocket("/ws/getLongShortSignal")
+async def websocket_getLongShortSignal(websocket: WebSocket):
+    await websocket.accept()
+    try :
+        params = await websocket.receive_json()
+        modelType = params.get("modelType", "history") # "history" or "realtime"
+        code = params.get("symbol", "")
+        period = params.get("period", "1d")
+        adjust_type = params.get("adjust_type", "")
+        startTime = params.get("startTime", "")
+        endTime = params.get("endTime", "")
+        indicators = params.get("indicators", [])
+        signal = Signaltest(code, period, adjust_type, startTime, endTime, indicators, modelType)
+
+    except WebSocketDisconnect:
+        logging.info("客户端断开连接")
+    except Exception as e:
+        logging.error(f"WebSocket 错误: {e}")
+    finally:
+        await websocket.close()
+

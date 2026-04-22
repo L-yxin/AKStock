@@ -10,6 +10,7 @@ from functools import wraps
 
 import clickhouse_connect
 # import modin.pandas as pd
+# import polars as pd
 import pandas as pd
 import requests
 from tqdm import tqdm
@@ -53,7 +54,11 @@ class ZSZQDataLoader:
     """
     def __init__(self):
         self._config = clickhouse.clickhouseConfig.get_client_config()
-        self.client = clickhouse_connect.get_client(**self._config)
+        try:
+            self.client = clickhouse_connect.get_client(**self._config)
+        except Exception as e:
+            logging.error(f"无法连接到ClickHouse: {e}")
+            raise e
 
     def parse_file_to_df(self, zip_path: str):
         """
@@ -207,15 +212,25 @@ class ZSZQDataLoader:
         if isinstance(end_date, datetime.datetime):
             end_date = end_date.strftime('%Y-%m-%d')
         query = """
-                WITH ranked AS (SELECT *, row_number() OVER (PARTITION BY code, period, adjust_type, datetime ORDER BY _version DESC) AS rn
-                                FROM KLineData
-                                WHERE code = %(code)s
-                                  AND period = %(period)s
-                                  AND adjust_type = %(adjust_type)s
-                                  AND datetime >= %(start_date)s
-                                  AND datetime <= %(end_date)s)
-                SELECT code, period, adjust_type, datetime, open, high, low, close, volume, amount
-                FROM ranked WHERE rn = 1 ORDER BY datetime
+               SELECT
+                code,
+                period,
+                adjust_type,
+                datetime,
+                argMax(open, _version) AS open,
+                argMax(high, _version) AS high,
+                argMax(low, _version) AS low,
+                argMax(close, _version) AS close,
+                argMax(volume, _version) AS volume,
+                argMax(amount, _version) AS amount
+            FROM KLineData
+            WHERE code = %(code)s
+              AND period = %(period)s
+              AND adjust_type = %(adjust_type)s
+              AND datetime >= %(start_date)s
+              AND datetime <= %(end_date)s
+            GROUP BY code, period, adjust_type, datetime
+            ORDER BY datetime
                 """
         try:
             df = self.client.query_df(query, parameters={
@@ -333,7 +348,6 @@ class ZSZQDataLoader:
     @sync_once
     def syncData(self):
         t, mes =self.downloadRawData()
-        print(t,mes)
         if t:
             newDate = self.client.query_df("SELECT datetime  FROM KLineData order by datetime DESC LIMIT 1")
             newDate = newDate["datetime"][0].to_pydatetime()
