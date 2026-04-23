@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field, GetCoreSchemaHandler
-from pydantic_core import CoreSchema, core_schema
-from typing import Any, Self
+from typing import Any
+
+from pydantic import BaseModel, GetCoreSchemaHandler
 from pydantic import validate_call
+from pydantic_core import CoreSchema, core_schema
 
 
 class OverZero(BaseModel):

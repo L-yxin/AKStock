@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="强制参数检查">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KLineForm/buy.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/buy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KLineForm/managerTool.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/managerTool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/signalTestFrame/Signaltest.py" beforeDir="false" afterPath="$PROJECT_DIR$/signalTestFrame/Signaltest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webapi/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/webapi/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,57 +49,57 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "FastAPI.main.py.executor": "Debug",
-    "FastAPI.未命名.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python 测试.Python 测试 (t1.py 内).executor": "Run",
-    "Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor": "Run",
-    "Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor": "Run",
-    "Python 测试.pytest (StockDataManagerTest.py 内).executor": "Run",
-    "Python 测试.pytest (test_auto_create_table.py 内).executor": "Run",
-    "Python 测试.t1.testFunc 的 Python 测试.executor": "Run",
-    "Python 测试.t1.test_func 的 Python 测试.executor": "Run",
-    "Python 测试.test_akshare.test_akshare_connection 的 pytest.executor": "Run",
-    "Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor": "Run",
-    "Python 测试.test_deduplication.test_deduplication 的 pytest.executor": "Run",
-    "Python 测试.test_local.test_local_functionality 的 pytest.executor": "Run",
-    "Python.Signaltest (1).executor": "Run",
-    "Python.Signaltest.executor": "Debug",
-    "Python.StockDataManagerTest.executor": "Run",
-    "Python.__init__.executor": "Debug",
-    "Python.buy.executor": "Run",
-    "Python.clickhouse (1).executor": "Run",
-    "Python.clickhouse.executor": "Run",
-    "Python.data_loader.executor": "Run",
-    "Python.downloader.executor": "Debug",
-    "Python.main.executor": "Debug",
-    "Python.managerTool.executor": "Run",
-    "Python.signalTest.executor": "Run",
-    "Python.strategy01.executor": "Run",
-    "Python.t1.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "database.data.extractors.current.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "debugger.dataViews.python.type.renderers",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;FastAPI.main.py.executor&quot;: &quot;Debug&quot;,
+    &quot;FastAPI.未命名.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python 测试.Python 测试 (t1.py 内).executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.StockDataManagerTest.MyTestCase 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.StockDataManagerTest.test_stock_data_manager 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.pytest (StockDataManagerTest.py 内).executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.pytest (test_auto_create_table.py 内).executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.t1.testFunc 的 Python 测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.t1.test_func 的 Python 测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_akshare.test_akshare_connection 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_deduplication.test_deduplication 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python 测试.test_local.test_local_functionality 的 pytest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Signaltest (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.Signaltest.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.StockDataManagerTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.__init__.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.buy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.clickhouse (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.clickhouse.executor&quot;: &quot;Run&quot;,
+    &quot;Python.data_loader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.downloader.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.managerTool.executor&quot;: &quot;Run&quot;,
+    &quot;Python.signalTest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.strategy01.executor&quot;: &quot;Run&quot;,
+    &quot;Python.t1.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;database.data.extractors.current.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;debugger.dataViews.python.type.renderers&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "clickhouse",
-      "mysql_aurora"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;clickhouse&quot;,
+      &quot;mysql_aurora&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy\dataTransfer" />
@@ -359,7 +355,7 @@
       <workItem from="1776507211407" duration="7047000" />
       <workItem from="1776677113759" duration="8991000" />
       <workItem from="1776766958932" duration="18311000" />
-      <workItem from="1776820725674" duration="8417000" />
+      <workItem from="1776820725674" duration="9751000" />
     </task>
     <task id="LOCAL-00001" summary="fist">
       <option name="closed" value="true" />
@@ -465,7 +461,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776821323856</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="强制参数检查">
+      <option name="closed" value="true" />
+      <created>1776833243401</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1776833243401</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
