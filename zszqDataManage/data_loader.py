@@ -9,8 +9,6 @@ import zipfile
 from functools import wraps
 
 import clickhouse_connect
-# import modin.pandas as pd
-# import polars as pd
 import pandas as pd
 import requests
 from tqdm import tqdm
@@ -357,13 +355,14 @@ class ZSZQDataLoader:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
     loader = ZSZQDataLoader()
     # loader.downloadRawData()
     loader.load_data_from_zip("../data/hsjday.zip", (datetime.datetime.now()-datetime.timedelta(days=10)).strftime('%Y-%m-%d'), datetime.datetime.now().strftime('%Y-%m-%d'))
     # loader.load_data_from_zip("../data/hsjday.zip")
     # 查询示例
-    # df = loader.select('sh000001', '1d', '', '2026-04-12', '2026-04-14')
-    # print(df["datetime"])
+    df = loader.select('sh000001', '1d', '', '2026-04-12', '2026-04-14')
+    print(df["datetime"])
 
     # symbols = loader.syncData()
     # print(symbols["code"].tolist())

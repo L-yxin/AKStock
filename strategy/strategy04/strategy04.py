@@ -1,0 +1,531 @@
+import numpy as np
+import pandas as pd
+from datetime import datetime, timedelta
+from collections import deque
+import talib
+
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, Dataset
+
+import pybroker
+from pybroker import Strategy, StrategyConfig
+from strategy.dataTransfer.DataTransfer import ZszqDataSource
+from zszqDataLoader import ZSZQDataLoader
+
+import optuna
+
+# ---------------------- 设备 ----------------------
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"使用设备: {device}")
+
+# ---------------------- 固定特征名称 ----------------------
+FEATURE_COLS = [
+    'ma_5_dist', 'ma_10_dist', 'ma_20_dist', 'ma_60_dist',
+    'volatility_10', 'atr_14',
+    'volume_ratio', 'volume_trend',
+    'macd', 'macd_signal', 'macd_hist', 'macd_diff',
+    'macd8', 'macd8_signal', 'macd8_hist', 'macd8_diff',
+    'rsi_6', 'rsi_14', 'rsi_24',
+    'rsi_oversold_6', 'rsi_oversold_12', 'rsi_oversold_24',
+    'k', 'd', 'j',
+    'bb_width', 'bb_position',
+    'bullish_engulfing', 'bearish_engulfing',
+    'morning_star', 'evening_star',
+    'hammer', 'hanging_man',
+    'three_white_soldiers', 'three_black_crows',
+    'ma5_cross_up_ma10', 'ma5_cross_down_ma10'
+]
+
+# ---------------------- LSTM 模型 ----------------------
+class LSTMModel(nn.Module):
+    def __init__(self, input_dim, hidden_dim=256, num_layers=2, dropout=0.3):
+        super().__init__()
+        self.lstm = nn.LSTM(input_dim, hidden_dim, num_layers,
+                            batch_first=True, dropout=dropout)
+        self.fc = nn.Sequential(
+            nn.Linear(hidden_dim, 32),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            nn.Linear(32, 1)
+        )
+
+    def forward(self, x):
+        lstm_out, _ = self.lstm(x)
+        last_out = lstm_out[:, -1, :]
+        return self.fc(last_out).squeeze(-1)
+
+
+# ---------------------- 特征工程 ----------------------
+class FeatureEngineer:
+    @staticmethod
+    def compute_features(df: pd.DataFrame) -> pd.DataFrame:
+        df = df.copy()
+        for col in ['open', 'high', 'low', 'close', 'volume']:
+            df[col] = df[col].astype(np.float64)
+
+        o = df['open'].values
+        h = df['high'].values
+        l = df['low'].values
+        c = df['close'].values
+        v = df['volume'].values
+
+        for p in [5, 10, 20, 60]:
+            ma = talib.SMA(c, timeperiod=p)
+            df[f'ma_{p}'] = ma
+            df[f'ma_{p}_dist'] = c / ma - 1.0
+
+        df['volatility_10'] = df['close'].pct_change().rolling(10).std()
+        df['atr_14'] = talib.ATR(h, l, c, timeperiod=14) / c
+
+        df['volume_ma_5'] = talib.SMA(v, timeperiod=5)
+        df['volume_ratio'] = v / df['volume_ma_5']
+        df['volume_ma_20'] = talib.SMA(v, timeperiod=20)
+        df['volume_trend'] = v / df['volume_ma_20'] - 1
+
+        macd, signal, hist = talib.MACD(c, fastperiod=12, slowperiod=26, signalperiod=9)
+        df['macd'] = macd
+        df['macd_signal'] = signal
+        df['macd_hist'] = hist
+        df['macd_diff'] = macd - signal
+
+        macd8, signal8, hist8 = talib.MACD(c, fastperiod=8, slowperiod=16, signalperiod=6)
+        df['macd8'] = macd8
+        df['macd8_signal'] = signal8
+        df['macd8_hist'] = hist8
+        df['macd8_diff'] = macd8 - signal8
+
+        df['rsi_6'] = talib.RSI(c, timeperiod=6)
+        df['rsi_14'] = talib.RSI(c, timeperiod=14)
+        df['rsi_24'] = talib.RSI(c, timeperiod=24)
+
+        df['rsi_oversold_6'] = (df['rsi_6'] < 30).astype(int)
+        df['rsi_oversold_12'] = (talib.RSI(c, timeperiod=12) < 30).astype(int)
+        df['rsi_oversold_24'] = (df['rsi_24'] < 30).astype(int)
+
+        low_n = talib.MIN(l, timeperiod=9)
+        high_n = talib.MAX(h, timeperiod=9)
+        rsv = (c - low_n) / (high_n - low_n + 1e-9) * 100
+        k = talib.EMA(rsv, timeperiod=3)
+        d = talib.EMA(k, timeperiod=3)
+        df['k'] = k
+        df['d'] = d
+        df['j'] = 3 * k - 2 * d
+
+        upper, middle, lower = talib.BBANDS(c, timeperiod=20, nbdevup=2, nbdevdn=2, matype=0)
+        df['bb_width'] = (upper - lower) / middle
+        df['bb_position'] = (c - lower) / (upper - lower + 1e-9)
+
+        df['bullish_engulfing'] = (talib.CDLENGULFING(o, h, l, c) == 100).astype(int)
+        df['bearish_engulfing'] = (talib.CDLENGULFING(o, h, l, c) == -100).astype(int)
+        df['morning_star'] = (talib.CDLMORNINGSTAR(o, h, l, c, penetration=0) == 100).astype(int)
+        df['evening_star'] = (talib.CDLEVENINGSTAR(o, h, l, c, penetration=0.3) == -100).astype(int)
+        df['hammer'] = (talib.CDLHAMMER(o, h, l, c) == 100).astype(int)
+        df['hanging_man'] = (talib.CDLHANGINGMAN(o, h, l, c) == -100).astype(int)
+        df['three_white_soldiers'] = (talib.CDL3WHITESOLDIERS(o, h, l, c) == 100).astype(int)
+        df['three_black_crows'] = (talib.CDL3BLACKCROWS(o, h, l, c) == -100).astype(int)
+
+        ma5 = talib.SMA(c, timeperiod=5)
+        ma10 = talib.SMA(c, timeperiod=10)
+        ma5_s = pd.Series(ma5, index=df.index)
+        ma10_s = pd.Series(ma10, index=df.index)
+        df['ma5_cross_up_ma10'] = ((ma5_s.shift(1) <= ma10_s.shift(1)) & (ma5_s > ma10_s)).astype(int)
+        df['ma5_cross_down_ma10'] = ((ma5_s.shift(1) >= ma10_s.shift(1)) & (ma5_s < ma10_s)).astype(int)
+
+        df['target'] = df['close'].shift(-5) / df['close'] - 1.0
+        return df
+
+
+# ---------------------- 序列数据集 ----------------------
+class SequenceDataset(Dataset):
+    def __init__(self, features, targets, seq_len):
+        self.features = features.values
+        self.targets = targets.values
+        self.seq_len = seq_len
+
+    def __len__(self):
+        return len(self.features) - self.seq_len
+
+    def __getitem__(self, idx):
+        x = torch.tensor(self.features[idx:idx + self.seq_len], dtype=torch.float32)
+        y = torch.tensor(self.targets[idx + self.seq_len], dtype=torch.float32)
+        return x, y
+
+
+# ---------------------- LSTM 训练器 ----------------------
+class LSTMTrainer:
+    def __init__(self, input_dim, params):
+        self.model = LSTMModel(
+            input_dim,
+            hidden_dim=params.get('hidden_dim', 256),
+            num_layers=params.get('num_layers', 2),
+            dropout=params.get('dropout', 0.3)
+        ).to(device)
+        self.lr = params.get('lr', 0.001)
+        self.epochs = params.get('epochs', 30)
+        self.batch_size = params.get('batch_size', 64)
+        self.buy_thresh = 0.005
+        self.sell_thresh = -0.005
+
+    def train(self, df_features, df_target, seq_len=30, verbose=False):
+        df = df_features.copy()
+        df['target'] = df_target
+        df = df.dropna()
+        if len(df) < seq_len + 200:
+            raise RuntimeError(f"数据不足，当前只有{len(df)}条")
+
+        features = df[FEATURE_COLS].astype(float)  # 确保数值类型
+        targets = df['target'].astype(float)
+        dataset = SequenceDataset(features, targets, seq_len)
+        dataloader = DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
+
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr)
+        loss_fn = nn.MSELoss()
+
+        self.model.train()
+        for epoch in range(self.epochs):
+            total_loss = 0.0
+            for xb, yb in dataloader:
+                xb, yb = xb.to(device), yb.to(device)
+                optimizer.zero_grad()
+                pred = self.model(xb)
+                loss = loss_fn(pred, yb)
+                loss.backward()
+                optimizer.step()
+                total_loss += loss.item() * xb.size(0)
+            if verbose and (epoch + 1) % 10 == 0:
+                print(f"Epoch {epoch + 1}/{self.epochs}, Loss: {total_loss / len(dataset):.6f}")
+
+        self.model.eval()
+        with torch.no_grad():
+            all_preds = []
+            for xb, _ in dataloader:
+                xb = xb.to(device)
+                pred = self.model(xb).cpu().numpy()
+                all_preds.append(pred)
+            all_preds = np.concatenate(all_preds)
+            self.buy_thresh = np.quantile(all_preds, 0.70)
+            self.sell_thresh = np.quantile(all_preds, 0.30)
+            if verbose:
+                print(f"训练完成，买入阈值: {self.buy_thresh:.5f}, 卖出阈值: {self.sell_thresh:.5f}")
+
+    def predict(self, feature_seq):
+        feature_seq = np.asarray(feature_seq, dtype=np.float64)  # 强制转换
+        if np.any(np.isnan(feature_seq)):
+            return 0.0
+        x = torch.tensor(feature_seq, dtype=torch.float32).unsqueeze(0).to(device)
+        self.model.eval()
+        with torch.no_grad():
+            pred = self.model(x).item()
+        return pred
+
+
+# ---------------------- 策略（支持动态参数） ----------------------
+class MLStrategy:
+    def __init__(self, symbol, start_date, end_date, params=None, seq_len=30,
+                 atr_stop=2.0, atr_profit=1.5):
+        self.symbol = symbol
+        self.start_date = pd.Timestamp(start_date)
+        self.end_date = pd.Timestamp(end_date)
+        self.params = params if params else {}
+        self.seq_len = seq_len
+        self.atr_stop = atr_stop
+        self.atr_profit = atr_profit
+        self.model = None
+        self.trained = False
+        self.feature_buffer = deque(maxlen=seq_len)
+        self.max_price = None
+        self.ret_buffer = deque(maxlen=10)
+
+    def _train_if_needed(self, verbose=True):
+        if self.trained:
+            return
+        loader = ZSZQDataLoader()
+        train_end = self.start_date - timedelta(days=1)
+        train_start = train_end - timedelta(days=365 * 5)
+        df = loader.select(self.symbol, '1d', '',
+                           train_start.strftime('%Y-%m-%d'),
+                           train_end.strftime('%Y-%m-%d'))
+        if df.empty:
+            print("训练数据为空")
+            return
+        df = df.sort_values('datetime')
+        fe = FeatureEngineer()
+        df_feat = fe.compute_features(df)
+        target = df_feat['target']
+        features_df = df_feat[FEATURE_COLS]
+
+        input_dim = len(FEATURE_COLS)
+        self.model = LSTMTrainer(input_dim, self.params)
+        self.model.train(features_df, target, seq_len=self.seq_len, verbose=verbose)
+        self.trained = True
+
+    def exec_fn(self, ctx: pybroker.context.ExecContext):
+        self._train_if_needed()
+        if not self.trained:
+            return
+
+        if ctx.bars < 70:
+            return
+
+        open_ = np.asarray(ctx.open, dtype=np.float64)
+        high = np.asarray(ctx.high, dtype=np.float64)
+        low = np.asarray(ctx.low, dtype=np.float64)
+        close = np.asarray(ctx.close, dtype=np.float64)
+        volume = np.asarray(ctx.volume, dtype=np.float64)
+
+        # 波动率（手动计算，避免Modin警告）
+        if len(close) >= 2:
+            daily_ret = (close[-1] - close[-2]) / close[-2]
+        else:
+            daily_ret = 0.0
+        self.ret_buffer.append(daily_ret)
+        volatility_10 = np.std(self.ret_buffer) if len(self.ret_buffer) == 10 else 0.0
+
+        feature_vals = []
+        for p in [5, 10, 20, 60]:
+            ma = talib.SMA(close, timeperiod=p)
+            feature_vals.append(close[-1] / ma[-1] - 1.0)
+        feature_vals.append(volatility_10)
+        atr = talib.ATR(high, low, close, timeperiod=14)
+        feature_vals.append(atr[-1] / close[-1])
+        vol_ma5 = talib.SMA(volume, timeperiod=5)
+        feature_vals.append(volume[-1] / vol_ma5[-1])
+        vol_ma20 = talib.SMA(volume, timeperiod=20)
+        feature_vals.append(volume[-1] / vol_ma20[-1] - 1.0)
+        macd, signal, hist = talib.MACD(close, fastperiod=12, slowperiod=26, signalperiod=9)
+        feature_vals.extend([macd[-1], signal[-1], hist[-1], macd[-1] - signal[-1]])
+        macd8, signal8, hist8 = talib.MACD(close, fastperiod=8, slowperiod=16, signalperiod=6)
+        feature_vals.extend([macd8[-1], signal8[-1], hist8[-1], macd8[-1] - signal8[-1]])
+        rsi6 = talib.RSI(close, timeperiod=6)
+        rsi14 = talib.RSI(close, timeperiod=14)
+        rsi24 = talib.RSI(close, timeperiod=24)
+        feature_vals.append(rsi6[-1])
+        feature_vals.append(rsi14[-1])
+        feature_vals.append(rsi24[-1])
+        feature_vals.append(1 if rsi6[-1] < 30 else 0)
+        rsi12 = talib.RSI(close, timeperiod=12)
+        feature_vals.append(1 if rsi12[-1] < 30 else 0)
+        feature_vals.append(1 if rsi24[-1] < 30 else 0)
+        low_n = talib.MIN(low, timeperiod=9)
+        high_n = talib.MAX(high, timeperiod=9)
+        rsv = (close - low_n) / (high_n - low_n + 1e-9) * 100
+        k = talib.EMA(rsv, timeperiod=3)
+        d = talib.EMA(k, timeperiod=3)
+        feature_vals.extend([k[-1], d[-1], 3 * k[-1] - 2 * d[-1]])
+        upper, middle, lower = talib.BBANDS(close, timeperiod=20, nbdevup=2, nbdevdn=2, matype=0)
+        feature_vals.append((upper[-1] - lower[-1]) / middle[-1])
+        feature_vals.append((close[-1] - lower[-1]) / (upper[-1] - lower[-1] + 1e-9))
+        engulfing = talib.CDLENGULFING(open_, high, low, close)
+        feature_vals.append(1 if engulfing[-1] == 100 else 0)
+        feature_vals.append(1 if engulfing[-1] == -100 else 0)
+        morning = talib.CDLMORNINGSTAR(open_, high, low, close, penetration=0)
+        feature_vals.append(1 if morning[-1] == 100 else 0)
+        evening = talib.CDLEVENINGSTAR(open_, high, low, close, penetration=0.3)
+        feature_vals.append(1 if evening[-1] == -100 else 0)
+        hammer = talib.CDLHAMMER(open_, high, low, close)
+        feature_vals.append(1 if hammer[-1] == 100 else 0)
+        hanging = talib.CDLHANGINGMAN(open_, high, low, close)
+        feature_vals.append(1 if hanging[-1] == -100 else 0)
+        three_white = talib.CDL3WHITESOLDIERS(open_, high, low, close)
+        feature_vals.append(1 if three_white[-1] == 100 else 0)
+        three_black = talib.CDL3BLACKCROWS(open_, high, low, close)
+        feature_vals.append(1 if three_black[-1] == -100 else 0)
+        ma5 = talib.SMA(close, timeperiod=5)
+        ma10 = talib.SMA(close, timeperiod=10)
+        cross_up = (ma5[-2] <= ma10[-2] and ma5[-1] > ma10[-1])
+        cross_down = (ma5[-2] >= ma10[-2] and ma5[-1] < ma10[-1])
+        feature_vals.append(1 if cross_up else 0)
+        feature_vals.append(1 if cross_down else 0)
+
+        feature_vec = np.array(feature_vals)
+        if np.any(np.isnan(feature_vec)):
+            return
+
+        self.feature_buffer.append(feature_vec)
+        if len(self.feature_buffer) < self.seq_len:
+            return
+
+        seq = np.array(self.feature_buffer)
+        pred_return = self.model.predict(seq)
+
+        pos = ctx.long_pos()
+
+        if pred_return > self.model.buy_thresh and pos is None:
+            shares = ctx.calc_target_shares(1.0)
+            ctx.buy_shares = (shares // 100) * 100
+            self.max_price = None
+
+        if pos is not None:
+            if self.max_price is None:
+                self.max_price = float(close[-1])
+            else:
+                self.max_price = max(self.max_price, float(close[-1]))
+
+            total_cost = sum(e.price * e.shares for e in pos.entries)
+            avg_cost = float(total_cost) / float(pos.shares)
+
+            atr_rel = talib.ATR(high, low, close, timeperiod=14)
+            if not np.isnan(atr_rel[-1]):
+                atr_value = atr_rel[-1] * float(close[-1])
+                if float(close[-1]) < avg_cost - self.atr_stop * atr_value:
+                    ctx.sell_shares = pos.shares
+                    self.max_price = None
+                    return
+                if float(close[-1]) < self.max_price - self.atr_profit * atr_value:
+                    ctx.sell_shares = pos.shares
+                    self.max_price = None
+                    return
+
+            if pred_return < self.model.sell_thresh:
+                ctx.sell_shares = pos.shares
+                self.max_price = None
+        else:
+            self.max_price = None
+
+
+# ============== Optuna 目标函数 ==============
+def objective(trial):
+    params = {
+        'hidden_dim': trial.suggest_int('hidden_dim', 128, 512, step=64),
+        'num_layers': trial.suggest_int('num_layers', 1, 3),
+        'dropout': trial.suggest_float('dropout', 0.2, 0.5),
+        'lr': trial.suggest_float('lr', 1e-4, 1e-2, log=True),
+        'epochs': trial.suggest_int('epochs', 20, 50, step=10),
+        'batch_size': trial.suggest_categorical('batch_size', [32, 64, 128]),
+    }
+    seq_len = trial.suggest_int('seq_len', 20, 60, step=5)
+    atr_stop = trial.suggest_float('atr_stop', 1.0, 3.0)
+    atr_profit = trial.suggest_float('atr_profit', 1.0, 2.5)
+
+    symbol = 'sh000001'
+    train_end = pd.Timestamp('2020-01-01') - timedelta(days=1)
+    train_start = train_end - timedelta(days=365 * 5)
+
+    loader = ZSZQDataLoader()
+    df_all = loader.select(symbol, '1d', '',
+                           train_start.strftime('%Y-%m-%d'),
+                           train_end.strftime('%Y-%m-%d'))
+    if df_all.empty:
+        return -1e9
+
+    df_all = df_all.sort_values('datetime')
+    fe = FeatureEngineer()
+    df_feat = fe.compute_features(df_all)
+
+    # 保留最后20%作为验证集
+    split_idx = int(len(df_feat) * 0.8)
+    train_df = df_feat.iloc[:split_idx]
+    val_df = df_feat.iloc[split_idx:]
+
+    trainer = LSTMTrainer(len(FEATURE_COLS), params)
+    try:
+        trainer.train(train_df[FEATURE_COLS], train_df['target'], seq_len=seq_len, verbose=False)
+    except Exception:
+        return -1e9
+
+    # 初始化序列缓冲区
+    buffer = deque(maxlen=seq_len)
+    start_idx = len(train_df) - seq_len
+    for i in range(start_idx, len(train_df)):
+        buffer.append(train_df.iloc[i][FEATURE_COLS].astype(float).values)
+
+    capital = 1_000_000
+    pos = None
+    max_price = 0
+    daily_values = []
+
+    for idx, row in val_df.iterrows():
+        feature_vec = row[FEATURE_COLS].astype(float).values
+        buffer.append(feature_vec)
+        if len(buffer) < seq_len:
+            continue
+
+        seq = np.array(buffer)
+        pred = trainer.predict(seq)
+
+        # 开仓
+        close_price = float(row['close'])
+        if pred > trainer.buy_thresh and pos is None:
+            shares = (capital // close_price // 100) * 100
+            if shares > 0:
+                pos = {
+                    'price': close_price,
+                    'shares': shares,
+                    'cost': shares * close_price
+                }
+                max_price = close_price
+
+        # 持仓管理
+        if pos is not None:
+            max_price = max(max_price, close_price)
+            atr_val = float(row['atr_14']) * close_price
+            # 止损
+            if close_price < pos['price'] - atr_stop * atr_val:
+                pnl = (close_price - pos['price']) * pos['shares']
+                capital += pnl
+                pos = None
+                continue
+            # 移动止盈
+            if close_price < max_price - atr_profit * atr_val:
+                pnl = (close_price - pos['price']) * pos['shares']
+                capital += pnl
+                pos = None
+                continue
+            # 模型卖出
+            if pred < trainer.sell_thresh:
+                pnl = (close_price - pos['price']) * pos['shares']
+                capital += pnl
+                pos = None
+
+        # 记录当日资产
+        if pos is not None:
+            mv = pos['shares'] * close_price + (capital - pos['cost'])
+        else:
+            mv = capital
+        daily_values.append(mv)
+
+    if len(daily_values) < 2:
+        return -1e9
+
+    daily_returns = np.diff(daily_values) / daily_values[:-1]
+    sharpe = np.mean(daily_returns) / (np.std(daily_returns) + 1e-9) * np.sqrt(252)
+    return float(sharpe)
+
+
+# ============== 主程序 ==============
+if __name__ == '__main__':
+    # 超参搜索
+    study = optuna.create_study(direction='maximize',
+                                sampler=optuna.samplers.TPESampler(seed=42))
+    study.optimize(objective, n_trials=30, timeout=3600)
+
+    print("\n===== 最佳参数 =====")
+    for k, v in study.best_params.items():
+        print(f"{k}: {v}")
+    print(f"最佳验证夏普: {study.best_value:.4f}")
+
+    best = study.best_params
+    model_params = {k: v for k, v in best.items() if k not in ['seq_len', 'atr_stop', 'atr_profit']}
+    seq_len = best['seq_len']
+    atr_stop = best['atr_stop']
+    atr_profit = best['atr_profit']
+
+    # 最终回测
+    config = StrategyConfig(initial_cash=1_000_000, fee_amount=0.0001)
+    strategy = Strategy(ZszqDataSource(), '2020-01-01', '2026-03-20', config)
+
+    ml_strat = MLStrategy('sh000001', '2020-01-01', '2026-03-20',
+                          params=model_params, seq_len=seq_len,
+                          atr_stop=atr_stop, atr_profit=atr_profit)
+    strategy.add_execution(ml_strat.exec_fn, ['sh000001'])
+
+    result = strategy.backtest(timeframe='1d', adjust='')
+    print("\n===== 最终回测指标 =====")
+    print(result.metrics)
+
+    if result.trades is not None and not result.trades.empty:
+        result.trades.to_csv('ml_trades_opt.csv', index=False)
+        print(f"交易记录已保存，共 {len(result.trades)} 笔")
+    if result.portfolio is not None and not result.portfolio.empty:
+        result.portfolio.to_csv('ml_portfolio_opt.csv')

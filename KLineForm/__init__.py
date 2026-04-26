@@ -3,11 +3,12 @@ K 线形态识别模块
 
 按看涨/看跌分类的 K 线形态识别工具
 """
-import numpy as np
+
+import pandas as pd
 
 from KLineForm import sell, buy, neutral, managerTool
-import pandas as pd
 from tool.inspectFuncArgsAndInfo import inspect_func_args_and_info
+
 __version__ = '0.1.0'
 
 
