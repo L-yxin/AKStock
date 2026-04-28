@@ -1,28 +1,58 @@
+from typing import Any, List, Tuple
+
+import numpy as np
 from pydantic import BaseModel, Field, GetCoreSchemaHandler, field_validator
-from pydantic_core import CoreSchema, core_schema
-from typing import Any, Self, Union, List, Tuple
 from pydantic import validate_call
+from pydantic_core import CoreSchema, core_schema
 from pydantic_core.core_schema import ValidationInfo
 
 
 class ManagerBoolean:
-    def __init__(self, value:str,_bool: bool=False):
+    def __init__(self, value: str, result: bool):
         self.value = value
-        self._bool = _bool
+        self.result = result          # 最新日的 bool 值
+
     def __bool__(self):
-        return self._bool
+        return self.result
+
     def __str__(self):
-        return self.value+':'+str(self._bool)
-def manager_boolean(value:str):
-    def waper(func):
-        func2  = validate_call(func,config={'arbitrary_types_allowed': True})
-        def __waper(*args, **kwargs):
-            res =  func2(*args, **kwargs)
-            return ManagerBoolean(value, bool(res))
-        __waper.__message__ = value
-        __waper.__oldFunc__ = func
-        return __waper
-    return waper
+        return f"{self.value}:{self.result}"
+
+
+def manager_boolean(value: str, boolFunc=None):
+    """
+    装饰器：
+    - 被装饰函数返回 numpy 数组 (与输入等长)
+    - boolFunc: 如何从原始数组提取最新 bool 值，若不提供则使用整个数组的最后布尔值
+    - 附加 __original_return_value__ 属性保存原始数组
+    """
+    def wrapper(func):
+        # 参数校验包装
+        func_validated = validate_call(func, config={'arbitrary_types_allowed': True})
+
+        def inner(*args, **kwargs):
+            # 调用原始函数，获取完整的数组结果
+            raw_array = func_validated(*args, **kwargs)
+            # 处理可能返回整型数组的情况，转换为 bool
+            if np.issubdtype(raw_array.dtype, np.integer):
+                raw_array = raw_array.astype(bool)
+
+            # 保存原始返回值供外部使用
+            inner.__original_return_value__ = raw_array
+
+            # 使用 boolFunc 计算最新 bool，如果未提供则取最后一个元素
+            if boolFunc is not None:
+                latest_bool = boolFunc(raw_array)
+            else:
+                latest_bool = raw_array[-1] if len(raw_array) > 0 else False
+
+            return ManagerBoolean(value, bool(latest_bool))
+
+        inner.__message__ = value
+        inner.__oldFunc__ = func
+        inner.__original_return_value__ = None   # 初始占位
+        return inner
+    return wrapper
 
 
 
