@@ -32,3 +32,5 @@ MODIFY COLUMN datetime DateTime('Asia/Shanghai');
 delete
 from KLineData
 where true;
+
+optimize table KLineData final ;
