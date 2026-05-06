@@ -843,5 +843,7 @@ def high_dark_cloud_with_bear_volume(
             res[i] = True
     return res
 
-
+@manager_boolean("看跌孕线", lambda arr: arr[-1] == -100)
+def is_bearish_harami(open_, high, low, close) -> np.ndarray:
+    return talib.CDLHARAMI(open_, high, low, close)
 # 文件结束

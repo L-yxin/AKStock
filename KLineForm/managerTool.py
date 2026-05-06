@@ -8,6 +8,9 @@ from pydantic_core.core_schema import ValidationInfo
 
 
 class ManagerBoolean:
+    __oldFunc__= None
+    __message__ =None
+    __original_return_value__= None
     def __init__(self, value: str, result: bool):
         self.value = value
         self.result = result          # 最新日的 bool 值
@@ -46,7 +49,11 @@ def manager_boolean(value: str, boolFunc=None):
             else:
                 latest_bool = raw_array[-1] if len(raw_array) > 0 else False
 
-            return ManagerBoolean(value, bool(latest_bool))
+            res = ManagerBoolean(value, bool(latest_bool))
+            res.__oldFunc__ = func
+            res.__message__ = value
+            res.__original_return_value__ = inner.__original_return_value__
+            return res
 
         inner.__message__ = value
         inner.__oldFunc__ = func

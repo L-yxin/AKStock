@@ -1,11 +1,9 @@
-from typing import Optional, List, Dict, Tuple
+from typing import Optional
+
 import numpy as np
 import talib
+
 from KLineForm.managerTool import MacdConfig, MaPeriodsConfig, MaPairsConfig, RsiConfig, manager_boolean
-
-from pydantic import validate_call
-
-
 
 @manager_boolean("看涨吞没", lambda arr: arr[-1] == 100)
 def is_bullish_engulfing(open_, high, low, close) -> np.ndarray:
@@ -306,23 +304,142 @@ def is_small_bullish_steps(open_, close, volume=None, N: int = 8, max_gain_pct: 
     return res
 
 
+
+
 @manager_boolean("RSI超卖", lambda arr: arr[-1])
-def is_rsi_oversold(close, rsi_periods: Optional[RsiConfig] = None, threshold: float = 30.0) -> np.ndarray:
+def is_rsi_oversold(
+    close: np.ndarray,
+    rsi_periods: Optional[RsiConfig] = None,
+    threshold: float = 30.0,
+    lookback: int = 20,
+    accel_factor: float = 1.8
+) -> np.ndarray:
+    """
+    动态 RSI 超卖判定：结合当前趋势和价格加速度，捕获加速赶底。
+
+    - 在下降趋势中，只有价格下跌加速（短期跌幅显著大于中期均速）且 RSI 进入极端低位才视为超卖；
+    - 在上升趋势中，价格快速回调（短期跌幅异常）且 RSI 超卖也会触发信号；
+    - 横盘震荡时，沿用传统 RSI 阈值过滤。
+
+    Parameters
+    ----------
+    close : 收盘价序列
+    rsi_periods : RSI周期配置（默认 [6,12,24]）
+    threshold : RSI 超卖阈值（默认 30.0）
+    lookback : 趋势计算窗口（默认 20）
+    accel_factor : 加速因子：短期跌幅 / 中期平均跌幅 > accel_factor 才认定加速
+    """
     if rsi_periods is None:
         rsi_periods = RsiConfig()
     periods = rsi_periods.value
     n = len(close)
-    res = np.zeros(n, dtype=bool)
+
+    # ---------- 计算 RSI ----------
     rsi_cache = {}
     for p in periods:
         rsi_cache[p] = talib.RSI(close, timeperiod=p)
-    for i in range(n):
-        for p in periods:
-            rsi_val = rsi_cache[p][i]
-            if not np.isnan(rsi_val) and rsi_val < threshold:
-                res[i] = True
-                break
+
+    # ---------- 计算价格变动 ----------
+    # 短期跌幅（5日）
+    ret5 = np.full(n, np.nan, dtype=np.float64)
+    ret5[5:] = close[5:] / close[:-5] - 1.0
+
+    # 中期平均每日跌幅（用 lookback 窗口线性回归斜率近似）
+    # 斜率表示每日涨跌额的中期趋势（正为上升，负为下降）
+    slopes = np.zeros(n, dtype=np.float64)
+    for i in range(lookback, n):
+        y = close[i - lookback : i]
+        x = np.arange(lookback)
+        # 线性回归斜率
+        slope = np.polyfit(x, y, 1)[0]
+        slopes[i] = slope
+
+    # 中期平均涨跌幅（近似日均涨跌幅）
+    avg_daily_ret = slopes / close  # 化为百分比
+
+    # ---------- 输出信号 ----------
+    res = np.zeros(n, dtype=bool)
+
+    for i in range(max(lookback, max(periods)) + 1, n):
+        # 必须至少有一个 RSI 低于阈值
+        rsi_low = any(
+            (not np.isnan(rsi_cache[p][i])) and rsi_cache[p][i] < threshold
+            for p in periods
+        )
+        if not rsi_low:
+            continue
+
+        # 趋势判断
+        trend_up = slopes[i] > 0   # 上升趋势
+        trend_down = slopes[i] < 0 # 下降趋势
+
+        # 加速条件
+        accel = False
+        if trend_down:
+            # 下降趋势：短期跌幅要明显大于中期平均跌幅
+            avg_down = abs(avg_daily_ret[i]) * 5  # 5日预期跌幅
+            if ret5[i] < -avg_down * accel_factor:
+                accel = True
+        elif trend_up:
+            # 上升趋势：出现异常回调（短期跌幅大）视为超卖
+            if ret5[i] < -0.05:    # 5日跌超5%，显著回调
+                accel = True
+        else:
+            # 横盘：直接用 RSI 阈值，相当于传统超卖
+            accel = True
+
+        if accel:
+            res[i] = True
+
     return res
+
+
+@manager_boolean("n日低开率高", lambda arr: arr[-1])
+def is_high_low_open_ratio(
+        open_: np.ndarray,
+        close: np.ndarray,
+        n_days: int = 5,
+        ratio: float = 0.5,
+        require_price_above_n: bool = True    # 新增：要求当前价高于n日前收盘价
+) -> np.ndarray:
+    """
+    判断最近 n_days 个交易日内，低开天数占总天数的比例是否 >= ratio。
+
+    参数：
+        n_days    : 回顾窗口天数，默认 5
+        ratio     : 低开天数占比阈值，默认 0.5（即 50%）
+        require_price_above_n : 为 True 时，要求当前收盘价 > n_days 前的收盘价
+    返回与输入等长的 bool 数组。
+    """
+    n = len(close)
+    # 每日是否低开（开盘价 < 前收）
+    is_low_open_day = np.zeros(n, dtype=bool)
+    for i in range(1, n):
+        if open_[i] < close[i - 1]:
+            is_low_open_day[i] = True
+
+    result = np.zeros(n, dtype=bool)
+    for i in range(n_days - 1, n):
+        # 低开率条件
+        window = is_low_open_day[i - n_days + 1 : i + 1]
+        if np.sum(window) / n_days < ratio:
+            continue
+
+        # 附加条件：当前价高于 n 日前价格
+        if require_price_above_n:
+            idx_before = i - n_days
+            if idx_before < 0 or close[i] <= close[idx_before]:
+                continue
+
+        result[i] = True
+
+    return result
+
+
+
+@manager_boolean("看涨孕线", lambda arr: arr[-1] == 100)
+def is_bullish_harami(open_, high, low, close) -> np.ndarray:
+    return talib.CDLHARAMI(open_, high, low, close)
 
 
 # 如果本文件作为主模块运行，可进行简单测试
