@@ -144,3 +144,59 @@ async def websocket_getLongShortSignal(websocket: WebSocket):
     finally:
         await websocket.close()
 
+from datetime import datetime, timezone, timedelta
+
+def parse_csv_to_markers(csv_path: str):
+    """读取 csv，返回符合前端 addMarkers 格式的 configs 列表"""
+    df = pd.read_csv(csv_path)
+    # 确保日期列正确解析
+    df['entry_date'] = pd.to_datetime(df['entry_date'])
+    df['exit_date']  = pd.to_datetime(df['exit_date'])
+
+    configs = []
+    for _, row in df.iterrows():
+        entry_dt = row['entry_date']
+        exit_dt  = row['exit_date']
+        entry_price = float(row['entry'])
+        exit_price = float(row['exit'])
+        shares = int(row['shares'])
+        pnl = float(row['pnl'])
+
+        # 买入信号
+        configs.append({
+            'datetime': entry_dt.strftime('%Y-%m-%d'),   # 日期字符串 "2020-10-20"
+            'value': entry_price,
+            'type': 'B',
+            'mes': f'买入 {shares} 股 @ {entry_price:.2f}\n预期盈亏 {pnl:.2f}'
+        })
+        # 卖出信号
+        configs.append({
+            'datetime': exit_dt.strftime('%Y-%m-%d'),
+            'value': exit_price,
+            'type': 'S',
+            'mes': f'卖出 {shares} 股 @ {exit_price:.2f}\n实际盈亏 {pnl:.2f}'
+        })
+
+    # 按日期和时间顺序排序（同一天买入在前）
+    configs.sort(key=lambda x: (x['datetime'], 0 if x['type'] == 'B' else 1))
+    return configs
+
+
+@app.websocket("/ws/getTradingSignals")
+async def websocket_getTradingSignals(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        csv_path = "D:/Users/lyx/Desktop/量化/AKStock/strategy/strategy10/ml_trades_20260502_114246.csv"
+        configs = parse_csv_to_markers(csv_path)
+
+        payload = {
+            'market': 'stock',
+            'configs': configs
+        }
+        await websocket.send_json(payload)
+        print("交易信号已发送，共", len(configs), "个标记")
+        await asyncio.sleep(5)
+    except Exception as e:
+        await websocket.send_json({'error': str(e)})
+    finally:
+        await websocket.close()
