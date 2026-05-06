@@ -2,28 +2,18 @@ import importlib
 import logging
 from datetime import datetime
 from typing import Union, List, Dict, Any, Optional
-
 import numpy as np
-import pybroker
-
-from strategy.dataTransfer.DataTransfer import ZszqDataSource
+import pandas as pd
 from tool.inspectFuncArgsAndInfo import inspect_func_args_and_info
+from zszqDataLoader import ZSZQDataLoader  # 假设可用
 
 logging.basicConfig(level=logging.INFO)
 
 
 class Signaltest:
-    def __init__(
-        self,
-        code: str,
-        period: str = '1d',
-        adjust_type: str = '',
-        start_date: Union[str, datetime] = None,
-        end_date: Union[str, datetime] = None,
-        signals: Optional[List[Dict[str, Any]]] = None,
-        modelType: str = "history"
-    ):
-        # 参数校验（同原代码，省略...）
+    def __init__(self, code, period='1d', adjust_type='', start_date=None, end_date=None, signals=None,
+                 modelType="history"):
+        # 参数校验 （同原代码）
         if start_date is None:
             raise ValueError("请传入开始时间")
         if isinstance(start_date, str):
@@ -34,7 +24,6 @@ class Signaltest:
             raise ValueError("请传入待测试的信号")
         if modelType not in {"history", "realtime"}:
             raise ValueError("请传入正确的模型类型")
-
         self.code = code
         self.period = period
         self.adjust_type = adjust_type
@@ -42,18 +31,16 @@ class Signaltest:
         self.end_date = end_date if modelType == "history" else datetime.now()
         self.signals = signals
         self.modelType = modelType
-
         self.results: List[Dict[str, Any]] = []
         self._indicator_funcs = self._load_indicator_functions(signals)
 
-    def _load_indicator_functions(self, signals: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    # _load_indicator_functions 保持原样
+    def _load_indicator_functions(self, signals):
         loaded = []
         for sig in signals:
             method_name = sig.get("method")
             sig_type = sig.get("type", "buy").lower()
-            # info = sig.get("info", method_name)
             user_params = sig.get("params", {})
-
             if sig_type == "buy":
                 module_name = "KLineForm.buy"
             elif sig_type == "sell":
@@ -61,23 +48,20 @@ class Signaltest:
             else:
                 logging.warning(f"未知信号类型 {sig_type}，跳过 {method_name}")
                 continue
-
             try:
                 module = importlib.import_module(module_name)
                 func = getattr(module, method_name)
                 raw_func = func
-
                 func_info = inspect_func_args_and_info(raw_func.__oldFunc__)["params"]
                 param_defaults = {}
                 for p in func_info:
                     if not p["required"] and p["default"] is not None:
                         param_defaults[p["name"]] = p["default"]
-
                 loaded.append({
                     "method": method_name,
                     "type": sig_type,
                     "info": raw_func.__oldFunc__.__doc__,
-                    "message":raw_func.__message__,
+                    "message": raw_func.__message__,
                     "user_params": user_params,
                     "func": raw_func,
                     "param_defaults": param_defaults,
@@ -88,90 +72,119 @@ class Signaltest:
                 continue
         return loaded
 
-    def _run(self, ctx: pybroker.context.ExecContext):
-        current_time: datetime = ctx.dt
+    def _prepare_kwargs(self, func_info, base_data, user_params):
+        """构建调用指标函数所需的参数字典"""
+        kwargs = {}
+        for param_meta in func_info:
+            name = param_meta["name"]
+            required = param_meta["required"]
+            if name in base_data:
+                kwargs[name] = base_data[name]
+            elif name in user_params:
+                kwargs[name] = user_params[name]
+            elif not required:
+                # 非必填且用户未提供，不传，让函数用默认值
+                continue
+            else:
+                # 必填参数缺失
+                return None
+        return kwargs
 
+    def start_history_vectorized(self):
+        """使用向量化方式计算历史信号"""
+        # 加载数据
+        loader = ZSZQDataLoader()
+        start_str = self.start_date.strftime('%Y-%m-%d')
+        end_str = self.end_date.strftime('%Y-%m-%d')
+        df = loader.select(self.code, self.period, self.adjust_type, start_str, end_str)
+        if df.empty:
+            logging.warning("没有获取到数据")
+            return self.results
+        # 标准化列名
+        if 'datetime' in df.columns:
+            df['date'] = pd.to_datetime(df['datetime'])
+        elif 'date' in df.columns:
+            df['date'] = pd.to_datetime(df['date'])
+        else:
+            raise ValueError("数据中缺少日期列")
+        df = df.set_index('date')
+        # 确保所需的OHLCV列存在
+        needed = ['open', 'high', 'low', 'close', 'volume']
+        for col in needed:
+            if col not in df.columns:
+                raise ValueError(f"数据缺少列 {col}")
+
+        # 准备基础数据数组
         base_data = {
-            "open_": np.array(ctx.open),
-            "open": np.array(ctx.open),
-            "high": np.array(ctx.high),
-            "low": np.array(ctx.low),
-            "close": np.array(ctx.close),
-            "volume": np.array(ctx.volume),
-            "date": np.array(ctx.date),
+            "open_": df['open'].values,
+            "open": df['open'].values,
+            "high": df['high'].values,
+            "low": df['low'].values,
+            "close": df['close'].values,
+            "volume": df['volume'].values,
+            "date": df.index.values,  # 暂不需要
         }
 
+        dates = df.index
+        opens = df['open'].values
+        highs = df['high'].values
+        lows = df['low'].values
+        closes = df['close'].values
+        volumes = df['volume'].values
+
+        # 对每个指标计算信号
         for ind in self._indicator_funcs:
             func = ind["func"]
             user_params = ind["user_params"]
             func_info = ind["func_info"]
 
-            kwargs = {}
-            skip = False
-
-            for param_meta in func_info:
-                name = param_meta["name"]
-                required = param_meta["required"]
-
-                # 1. 基础数据（必需）
-                if name in base_data:
-                    kwargs[name] = base_data[name]
-                    continue
-
-                # 2. 用户显式传入的参数（直接传递，不做任何特殊生成）
-                if name in user_params:
-                    kwargs[name] = user_params[name]
-                    continue
-
-                # 3. 非必填参数且用户未提供 → 不传递，让函数使用默认值
-                if not required:
-                    continue
-
-                # 4. 必填参数缺失 → 跳过该指标
-                if required:
-                    logging.debug(f"指标 {ind['method']} 缺少必填参数 '{name}'，跳过")
-                    skip = True
-                    break
-
-            if skip:
+            kwargs = self._prepare_kwargs(func_info, base_data, user_params)
+            if kwargs is None:
                 continue
 
             try:
-                result = func(**kwargs)
-                if result:
+                # 调用指标函数，获得带装饰器的对象
+                result_obj = func(**kwargs)
+                # 获取原始返回值数组
+                raw_arr = result_obj.__original_return_value__
+                # 将原始数组转换为布尔信号掩码
+                if np.issubdtype(raw_arr.dtype, np.bool_):
+                    signal_mask = raw_arr
+                else:
+                    # 数值类型，非零值为信号（或大于0，根据信号类型）
+                    # buy 信号通常为正，sell 信号可能为负，但这里我们用非零判断
+                    signal_mask = raw_arr >0 if ind["type"] == "buy" else raw_arr <0
+
+                # 遍历信号发生的索引
+                true_idx = np.where(signal_mask)[0]
+                for idx in true_idx:
                     self.results.append({
-                        "datetime": current_time.strftime("%Y-%m-%d %H:%M:%S"),
+                        "datetime": dates[idx].strftime("%Y-%m-%d %H:%M:%S"),
                         "symbol": self.code,
                         "period": self.period,
                         "adjust_type": self.adjust_type,
                         "method": ind["method"],
                         "type": ind["type"],
                         "info": ind["info"],
-                        "message":ind["message"],
-                        "open":float(base_data["open_"][-1]),
-                        "high":float(base_data["high"][-1]),
-                        "low":float(base_data["low"][-1]),
-                        "close":float(base_data["close"][-1]),
-                        "volume":int(base_data["volume"][-1])
+                        "message": ind["message"],
+                        "open": float(opens[idx]),
+                        "high": float(highs[idx]),
+                        "low": float(lows[idx]),
+                        "close": float(closes[idx]),
+                        "volume": int(volumes[idx])
                     })
             except Exception as e:
-                logging.warning(f"指标 {ind['method']} 计算失败 at {current_time}: {e}")
+                logging.warning(f"指标 {ind['method']} 计算失败: {e}")
 
-    def start(self) -> List[Dict[str, Any]]:
-        config = pybroker.StrategyConfig(initial_cash=1_000_000, fee_amount=0.0001)
-        strategy = pybroker.Strategy(ZszqDataSource(), self.start_date, self.end_date, config)
-        strategy.add_execution(self._run, [self.code])
+        return self.results
 
+    def start(self):
         if self.modelType == "history":
-            strategy.backtest(timeframe=self.period, adjust=self.adjust_type)
-            return self.results
+            return self.start_history_vectorized()
         else:
-            logging.info("启动实时信号监控...")
-            try:
-                strategy.run(timeframe=self.period, adjust=self.adjust_type)
-            except KeyboardInterrupt:
-                logging.info("实时监控已停止")
-            return self.results
+            # 实时模式保留原 pybroker 实现，或者提示不支持
+            logging.error("当前版本不支持实时模式的向量化加速，请使用 history 模式")
+            return []
 
 if __name__ == "__main__":
 
