@@ -4,23 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="t2">
-      <change afterPath="$PROJECT_DIR$/strategy/strategy02/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy02/strategy02.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy03/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy03/strategy03.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy04/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy04/ml_portfolio.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy04/ml_trades.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/strategy/strategy04/strategy04.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/t2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zszqDataLoader/__init__.py" afterDir="false" />
+    <list default="true" id="4fec7fb4-02db-47ab-8398-3236a7c95b88" name="更改" comment="适配模型">
+      <change afterPath="$PROJECT_DIR$/AKshareDataLoader/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AKshareDataLoader/api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestGm/01.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestGm/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy02/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy05/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy05/strategy05.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy06/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy06/strategy06.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy07/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy07/strategy06.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy08 固定pt参数/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy08 固定pt参数/strategy06.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy09/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy09/log.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy09/strategy06.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy10/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy10/strategy06.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy11/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/strategy/strategy11/strategy06.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/优秀策略封存/1/best_model_fixed-1777342799.796195.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/优秀策略封存/1/strategy06.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KLineForm/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KLineForm/buy.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/buy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KLineForm/managerTool.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/managerTool.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KLineForm/sell.py" beforeDir="false" afterPath="$PROJECT_DIR$/KLineForm/sell.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/orders_log.csv" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy01/orders_log.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/portfolio_nav.csv" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy01/portfolio_nav.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/strategy/strategy01/trades_log.csv" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy01/trades_log.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/signalTestFrame/Signaltest.py" beforeDir="false" afterPath="$PROJECT_DIR$/signalTestFrame/Signaltest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/strategy/strategy02/strategy02.py" beforeDir="false" afterPath="$PROJECT_DIR$/strategy/strategy02/strategy02.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/1.sql" beforeDir="false" afterPath="$PROJECT_DIR$/temp/1.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapi/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/webapi/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/zszqDataManage/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/zszqDataManage/data_loader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +82,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "FastAPI.main.py.executor": "Debug",
+    "FastAPI.main.py.executor": "Run",
     "FastAPI.未命名.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python 测试.Python 测试 (t1.py 内).executor": "Run",
@@ -81,10 +96,12 @@
     "Python 测试.test_auto_create_table.test_auto_create_table 的 pytest.executor": "Run",
     "Python 测试.test_deduplication.test_deduplication 的 pytest.executor": "Run",
     "Python 测试.test_local.test_local_functionality 的 pytest.executor": "Run",
+    "Python.01.executor": "Debug",
     "Python.Signaltest (1).executor": "Run",
-    "Python.Signaltest.executor": "Debug",
+    "Python.Signaltest.executor": "Run",
     "Python.StockDataManagerTest.executor": "Run",
     "Python.__init__.executor": "Debug",
+    "Python.api.executor": "Run",
     "Python.buy.executor": "Run",
     "Python.clickhouse (1).executor": "Run",
     "Python.clickhouse.executor": "Run",
@@ -97,8 +114,15 @@
     "Python.strategy02.executor": "Run",
     "Python.strategy03.executor": "Run",
     "Python.strategy04.executor": "Run",
+    "Python.strategy05.executor": "Run",
+    "Python.strategy06 (1).executor": "Run",
+    "Python.strategy06 (2).executor": "Run",
+    "Python.strategy06 (3).executor": "Run",
+    "Python.strategy06 (4).executor": "Run",
+    "Python.strategy06.executor": "Run",
     "Python.t1.executor": "Run",
     "Python.t2.executor": "Run",
+    "Python.test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -111,7 +135,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.selected.configurable": "com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -124,14 +148,18 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy" />
+      <recent name="D:\Users\lyx\Desktop\量化\AKStock\优秀策略封存\4" />
+      <recent name="D:\Users\lyx\Desktop\量化\AKStock\优秀策略封存\3" />
+      <recent name="D:\Users\lyx\Desktop\量化\AKStock\优秀策略封存\2" />
+      <recent name="D:\Users\lyx\Desktop\量化\AKStock\优秀策略封存\1" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy\dataTransfer" />
       <recent name="D:\Users\lyx\Desktop\量化\AKStock\strategy\strategy01" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.strategy04">
-    <configuration name="data_loader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.strategy06">
+    <configuration name="Signaltest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -140,12 +168,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/zszqDataManage" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/signalTestFrame" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/zszqDataManage/data_loader.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/signalTestFrame/Signaltest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -154,7 +182,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="strategy01" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="api" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -163,12 +191,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/strategy/strategy01" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AKshareDataLoader" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/strategy/strategy01/strategy01.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AKshareDataLoader/api.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,7 +205,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="strategy03" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="strategy06 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -186,12 +214,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/strategy/strategy03" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/strategy/strategy09" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/strategy/strategy03/strategy03.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/strategy/strategy09/strategy06.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -200,7 +228,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="strategy04" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="strategy06 (4)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -209,12 +237,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/strategy/strategy04" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/strategy/strategy10" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/strategy/strategy04/strategy04.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/strategy/strategy10/strategy06.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -223,7 +251,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="t2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="strategy06" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AKStock" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -232,12 +260,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/strategy/strategy11" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/t2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/strategy/strategy11/strategy06.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -280,19 +308,19 @@
     <list>
       <item itemvalue="FastAPI.main.py" />
       <item itemvalue="Flask 服务器.Flask" />
-      <item itemvalue="Python.strategy03" />
-      <item itemvalue="Python.strategy04" />
-      <item itemvalue="Python.data_loader" />
-      <item itemvalue="Python.t2" />
-      <item itemvalue="Python.strategy01" />
+      <item itemvalue="Python.Signaltest" />
+      <item itemvalue="Python.strategy06 (1)" />
+      <item itemvalue="Python.strategy06" />
+      <item itemvalue="Python.api" />
+      <item itemvalue="Python.strategy06 (4)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.strategy04" />
-        <item itemvalue="Python.strategy03" />
-        <item itemvalue="Python.data_loader" />
-        <item itemvalue="Python.t2" />
-        <item itemvalue="Python.strategy01" />
+        <item itemvalue="Python.strategy06" />
+        <item itemvalue="Python.Signaltest" />
+        <item itemvalue="Python.strategy06 (4)" />
+        <item itemvalue="Python.strategy06 (1)" />
+        <item itemvalue="Python.api" />
       </list>
     </recent_temporary>
   </component>
@@ -362,6 +390,18 @@
       <workItem from="1777080053743" duration="4580000" />
       <workItem from="1777085036207" duration="1055000" />
       <workItem from="1777086315772" duration="8786000" />
+      <workItem from="1777171885332" duration="3445000" />
+      <workItem from="1777176044229" duration="190000" />
+      <workItem from="1777176484411" duration="4578000" />
+      <workItem from="1777255821095" duration="11134000" />
+      <workItem from="1777267686720" duration="688000" />
+      <workItem from="1777340182898" duration="12219000" />
+      <workItem from="1777352600278" duration="1381000" />
+      <workItem from="1777603485328" duration="11168000" />
+      <workItem from="1777690316132" duration="9535000" />
+      <workItem from="1777868167838" duration="6659000" />
+      <workItem from="1777951628734" duration="9960000" />
+      <workItem from="1778040299683" duration="4578000" />
     </task>
     <task id="LOCAL-00001" summary="fist">
       <option name="closed" value="true" />
@@ -507,7 +547,31 @@
       <option name="project" value="LOCAL" />
       <updated>1776909811144</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="t2">
+      <option name="closed" value="true" />
+      <created>1777171989188</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1777171989188</updated>
+    </task>
+    <task id="LOCAL-00020" summary="pytouchGPUTest">
+      <option name="closed" value="true" />
+      <created>1777172021793</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1777172021793</updated>
+    </task>
+    <task id="LOCAL-00021" summary="适配模型">
+      <option name="closed" value="true" />
+      <created>1777349335235</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1777349335235</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -561,19 +625,25 @@
     <MESSAGE value="强制参数检查" />
     <MESSAGE value="t" />
     <MESSAGE value="t2" />
-    <option name="LAST_COMMIT_MESSAGE" value="t2" />
+    <MESSAGE value="pytouchGPUTest" />
+    <MESSAGE value="适配模型" />
+    <option name="LAST_COMMIT_MESSAGE" value="适配模型" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AKStock$buy.coverage" NAME="buy 覆盖结果" MODIFIED="1776781031352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/KLineForm" />
     <SUITE FILE_PATH="coverage/AKStock$__init__.coverage" NAME="__init__ 覆盖结果" MODIFIED="1776681600023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/KLineForm" />
-    <SUITE FILE_PATH="coverage/AKStock$strategy02.coverage" NAME="strategy02 覆盖结果" MODIFIED="1777085067797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy02" />
+    <SUITE FILE_PATH="coverage/AKStock$strategy06__2_.coverage" NAME="strategy06 (2) 覆盖结果" MODIFIED="1777267614182" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy08" />
+    <SUITE FILE_PATH="coverage/AKStock$strategy02.coverage" NAME="strategy02 覆盖结果" MODIFIED="1777613649016" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy02" />
     <SUITE FILE_PATH="coverage/AKStock$downloader.coverage" NAME="downloader 覆盖结果" MODIFIED="1772338227732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dataManage" />
+    <SUITE FILE_PATH="coverage/AKStock$strategy06__4_.coverage" NAME="strategy06 (4) 覆盖结果" MODIFIED="1777961430145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy10" />
     <SUITE FILE_PATH="coverage/AKStock$test_akshare_test_akshare_connection__pytest.coverage" NAME="test_akshare.test_akshare_connection 的 pytest 覆盖结果" MODIFIED="1772339533128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest_test_stock_data_manager__pytest.coverage" NAME="StockDataManagerTest.test_stock_data_manager 的 pytest 覆盖结果" MODIFIED="1772337795507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$strategy03.coverage" NAME="strategy03 覆盖结果" MODIFIED="1777094224830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy03" />
     <SUITE FILE_PATH="coverage/AKStock$.coverage" NAME=" 覆盖结果" MODIFIED="1776775001861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/AKStock$strategy05.coverage" NAME="strategy05 覆盖结果" MODIFIED="1777265172078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy05" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest.coverage" NAME="StockDataManagerTest 覆盖结果" MODIFIED="1772341122955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$test_auto_create_table_test_auto_create_table__pytest.coverage" NAME="test_auto_create_table.test_auto_create_table 的 pytest 覆盖结果" MODIFIED="1770550725034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
+    <SUITE FILE_PATH="coverage/AKStock$strategy06__1_.coverage" NAME="strategy06 (1) 覆盖结果" MODIFIED="1777956853819" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy09" />
     <SUITE FILE_PATH="coverage/AKStock$t2.coverage" NAME="t2 覆盖结果" MODIFIED="1777086767376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/AKStock$clickhouse__1_.coverage" NAME="clickhouse (1) 覆盖结果" MODIFIED="1770783501108" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dataManage" />
     <SUITE FILE_PATH="coverage/AKStock$strategy04.coverage" NAME="strategy04 覆盖结果" MODIFIED="1777094823216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy04" />
@@ -582,15 +652,20 @@
     <SUITE FILE_PATH="coverage/AKStock$pytest__StockDataManagerTest_py__.coverage" NAME="pytest (StockDataManagerTest.py 内) 覆盖结果" MODIFIED="1774065142086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/AKStock$signalTest.coverage" NAME="signalTest 覆盖结果" MODIFIED="1776339221489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/signalTestFrame" />
     <SUITE FILE_PATH="coverage/AKStock$main.coverage" NAME="main 覆盖结果" MODIFIED="1775644922177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/webapi" />
-    <SUITE FILE_PATH="coverage/AKStock$main_py.coverage" NAME="main.py 覆盖结果" MODIFIED="1776909401941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/AKStock$strategy06__3_.coverage" NAME="strategy06 (3) 覆盖结果" MODIFIED="1777342681497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy09" />
+    <SUITE FILE_PATH="coverage/AKStock$main_py.coverage" NAME="main.py 覆盖结果" MODIFIED="1778041894279" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/AKStock$api.coverage" NAME="api 覆盖结果" MODIFIED="1777696103387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AKshareDataLoader" />
     <SUITE FILE_PATH="coverage/AKStock$clickhouse.coverage" NAME="clickhouse 覆盖结果" MODIFIED="1770545987991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/config" />
+    <SUITE FILE_PATH="coverage/AKStock$strategy06.coverage" NAME="strategy06 覆盖结果" MODIFIED="1778044328931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy11" />
     <SUITE FILE_PATH="coverage/AKStock$test_local_test_local_functionality__pytest.coverage" NAME="test_local.test_local_functionality 的 pytest 覆盖结果" MODIFIED="1772337693268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AKStock$Signaltest__1_.coverage" NAME="Signaltest (1) 覆盖结果" MODIFIED="1776772173162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/signalTestFrame" />
-    <SUITE FILE_PATH="coverage/AKStock$data_loader.coverage" NAME="data_loader 覆盖结果" MODIFIED="1777086928007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zszqDataManage" />
+    <SUITE FILE_PATH="coverage/AKStock$data_loader.coverage" NAME="data_loader 覆盖结果" MODIFIED="1777604742483" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zszqDataManage" />
     <SUITE FILE_PATH="coverage/AKStock$t1.coverage" NAME="t1 覆盖结果" MODIFIED="1776778995284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
-    <SUITE FILE_PATH="coverage/AKStock$Signaltest.coverage" NAME="Signaltest 覆盖结果" MODIFIED="1776821166494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/signalTestFrame" />
+    <SUITE FILE_PATH="coverage/AKStock$Signaltest.coverage" NAME="Signaltest 覆盖结果" MODIFIED="1778040602182" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/signalTestFrame" />
     <SUITE FILE_PATH="coverage/AKStock$StockDataManagerTest_MyTestCase__pytest.coverage" NAME="StockDataManagerTest.MyTestCase 的 pytest 覆盖结果" MODIFIED="1772336451171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/AKStock$01.coverage" NAME="01 覆盖结果" MODIFIED="1777179087854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/TestGm" />
     <SUITE FILE_PATH="coverage/AKStock$strategy01.coverage" NAME="strategy01 覆盖结果" MODIFIED="1777085106765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy01" />
+    <SUITE FILE_PATH="coverage/AKStock$test.coverage" NAME="test 覆盖结果" MODIFIED="1777614188652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/strategy/strategy02" />
     <SUITE FILE_PATH="coverage/AKStock$test_deduplication_test_deduplication__pytest.coverage" NAME="test_deduplication.test_deduplication 的 pytest 覆盖结果" MODIFIED="1772335769674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
   </component>
 </project>
